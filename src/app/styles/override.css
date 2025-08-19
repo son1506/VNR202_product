@@ -1,0 +1,26 @@
+.slick-dots li {
+  /* background-color: #ff0000; */
+  background-color: #6d6d6d;
+}
+
+.space .slick-dots li.slick-active {
+  background-color: #229213 !important;
+}
+
+.space .slick-dots li::after {
+  background-color: #229213 !important;
+}
+
+.override .ant-tabs-nav {
+  margin: 0px !important;
+}
+
+.ant-layout-sider-trigger {
+  background-color: #494949 !important;
+}
+
+/* .space .slick-track {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 12px;
+} */
