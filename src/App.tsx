@@ -1,4 +1,4 @@
-import { BrowserRouter } from "react-router";
+import { BrowserRouter } from "react-router-dom"; // ✅ đúng
 import { App as AntApp, ConfigProvider } from "antd";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import MainRoutes from "./app/routes/MainRoutes/MainRoutes";
@@ -22,7 +22,7 @@ function App() {
           }}
         >
           <QueryClientProvider client={queryClient}>
-            <MainRoutes />
+            <MainRoutes /> {/* ✅ tất cả routes (kể cả /map) sẽ ở đây */}
           </QueryClientProvider>
         </ConfigProvider>
       </AntApp>
