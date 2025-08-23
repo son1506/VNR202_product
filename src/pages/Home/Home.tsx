@@ -8,13 +8,7 @@ const Home: React.FC = () => {
     const controls = useAnimation();
     const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
 
-    useEffect(() => {
-        const updateMousePosition = (e: MouseEvent) => {
-            setMousePosition({ x: e.clientX, y: e.clientY });
-        };
-        window.addEventListener('mousemove', updateMousePosition);
-        return () => window.removeEventListener('mousemove', updateMousePosition);
-    }, []);
+
 
     const pageVariants = {
         initial: { opacity: 0, scale: 0.96, y: 30 },
@@ -51,8 +45,18 @@ const Home: React.FC = () => {
             className="relative min-h-screen overflow-hidden"
         >
             {/* Background */}
-            <div className="absolute inset-0">
-                <div className="absolute inset-0 bg-gradient-to-br from-slate-900 via-indigo-900 to-purple-900" />
+            <div className="absolute inset-0 -z-10">
+                {/* Background image */}
+                <div
+                    className="absolute inset-0 bg-cover bg-center"
+                    style={{
+                        backgroundImage: "url('https://cdnmedia.baotintuc.vn/Upload/pTMF1jgWpbjY1m8G1xWUsg/files/2020/04/doiquantocdai/doiquantocdai-1704h3.jpg')",
+                        zIndex: 0,
+                        filter: 'brightness(0.55)'
+                    }}
+                />
+                {/* Overlay gradient and effects */}
+                <div className="absolute inset-0 bg-gradient-to-br from-slate-900  opacity-80" style={{ zIndex: 1 }} />
                 {[...Array(20)].map((_, i) => (
                     <motion.div
                         key={i}
@@ -60,6 +64,7 @@ const Home: React.FC = () => {
                         style={{
                             left: `${Math.random() * 100}%`,
                             top: `${Math.random() * 100}%`,
+                            zIndex: 2
                         }}
                         animate={{ y: [0, -30, 0], opacity: [0.3, 0.9, 0.3] }}
                         transition={{
@@ -77,6 +82,7 @@ const Home: React.FC = () => {
                             'radial-gradient(circle, rgba(99,102,241,0.5) 0%, transparent 70%)',
                         left: mousePosition.x - 192,
                         top: mousePosition.y - 192,
+                        zIndex: 3
                     }}
                     animate={{ scale: [1, 1.2, 1] }}
                     transition={{ duration: 2, repeat: Infinity, ease: 'easeInOut' }}
@@ -92,7 +98,7 @@ const Home: React.FC = () => {
             >
                 <motion.div variants={itemVariants} className="text-center mb-8">
                     <motion.h1
-                        className="text-5xl md:text-7xl font-black mb-4 bg-gradient-to-r from-blue-400 via-purple-500 to-pink-500 bg-clip-text text-transparent"
+                        className="text-5xl md:text-7xl font-black mb-4 bg-gradient-to-r from-blue-400 via-blue-500 to-blue-500 bg-clip-text text-transparent"
                         whileHover={{ scale: 1.03 }}
                     >
                         Việt Nam 1954–1964
@@ -102,13 +108,13 @@ const Home: React.FC = () => {
                     </motion.h2>
                 </motion.div>
 
-                <motion.p
+                {/* <motion.p
                     variants={itemVariants}
                     className="text-lg md:text-xl mb-12 text-center max-w-3xl leading-relaxed text-gray-200"
                 >
                     Khám phá dòng thời gian, bản đồ diễn biến, tác nhân chính và mô-đun
                     tranh luận tương tác. Tất cả tập trung vào giai đoạn 1954–1964.
-                </motion.p>
+                </motion.p> */}
 
                 <motion.div variants={itemVariants} className="flex gap-6 flex-wrap">
                     <motion.button
@@ -118,7 +124,7 @@ const Home: React.FC = () => {
                         whileTap={{ scale: 0.96 }}
                     >
                         <span className="relative z-10 flex items-center gap-2">
-                            ⏰ Khám phá dòng thời gian
+                            Khám phá dòng thời gian
                         </span>
                     </motion.button>
                     <motion.button
@@ -128,7 +134,7 @@ const Home: React.FC = () => {
                         whileTap={{ scale: 0.96 }}
                     >
                         <span className="relative z-10 flex items-center gap-2">
-                            ⚖️ Tranh luận: Có phải nội chiến?
+                            Tranh luận: Có phải nội chiến?
                         </span>
                     </motion.button>
                     <motion.button
@@ -137,7 +143,7 @@ const Home: React.FC = () => {
                         whileHover={{ scale: 1.04 }}
                         whileTap={{ scale: 0.96 }}
                     >
-                        <span className="relative z-10 flex items-center gap-2">🗺️ Bản đồ diễn biến</span>
+                        <span className="relative z-10 flex items-center gap-2"> Bản đồ diễn biến</span>
                     </motion.button>
                 </motion.div>
             </motion.div>

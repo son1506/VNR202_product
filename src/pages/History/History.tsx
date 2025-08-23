@@ -7,7 +7,7 @@ import { useLocation } from 'react-router-dom'; // NEW: đọc hash để cuộn
 type SourceRef = { label: string; url: string };
 type Actor = { id: string; name: string; role: string; summary: string; highlights: string[] };
 type EventItem = {
-  id: string; year: number; title: string; description: string; icon: string; color: string; sources?: SourceRef[];
+  id: string; year: number; title: string; description: string; color: string; sources?: SourceRef[];
 };
 
 // ========= Local “AI” answer (no backend required) =========
@@ -91,13 +91,13 @@ const History: React.FC = () => {
 
   const timelineEvents: EventItem[] = useMemo(
     () => [
-      { id: 'geneva-1954', year: 1954, title: 'Hiệp định Genève', description: 'Đình chỉ chiến sự; giới tuyến quân sự tạm thời; dự kiến tổng tuyển cử thống nhất.', icon: '📜', color: 'from-sky-500 to-indigo-500', sources: [sources[3]] },
-      { id: 'election-1956', year: 1956, title: 'Bế tắc hiệp thương – tổng tuyển cử', description: 'VNCH/Mỹ không hiệp thương tổng tuyển cử (1956) → bế tắc thống nhất.', icon: '🗳️', color: 'from-cyan-500 to-teal-500', sources: [sources[3]] },
-      { id: 'shift-1959', year: 1959, title: 'Chuyển pha đấu tranh ở miền Nam', description: 'Chuẩn bị tổ chức lực lượng chính trị–quân sự ở MN.', icon: '🔁', color: 'from-amber-500 to-orange-500', sources: [sources[2]] },
-      { id: 'nlf-1960', year: 1960, title: 'Thành lập Mặt trận DTGP MN', description: '12/1960 thành lập; 1961 hình thành Quân Giải phóng MN.', icon: '🚩', color: 'from-rose-500 to-pink-500', sources: [sources[3]] },
-      { id: 'specialwar-1961-64', year: 1961, title: '“Chiến tranh đặc biệt”', description: 'Khung tác chiến: cố vấn–viện trợ Mỹ, quân VNCH; ấp chiến lược.', icon: '🎯', color: 'from-purple-500 to-fuchsia-500', sources: [sources[3]] },
-      { id: 'crisis-1963', year: 1963, title: 'Khủng hoảng 1963 & đảo chính', description: 'Biến cố Phật giáo; lật đổ Ngô Đình Diệm.', icon: '⚠️', color: 'from-violet-500 to-pink-600', sources: [sources[3]] },
-      { id: 'tonkin-1964', year: 1964, title: 'Sự kiện Vịnh Bắc Bộ', description: '8/1964: Nghị quyết Vịnh Bắc Bộ → mở đường cho can dự trực tiếp của Hoa Kỳ.', icon: '🌊', color: 'from-blue-600 to-cyan-600', sources: [sources[3]] },
+      { id: 'geneva-1954', year: 1954, title: 'Hiệp định Genève', description: 'Đình chỉ chiến sự; giới tuyến quân sự tạm thời; dự kiến tổng tuyển cử thống nhất.', color: 'from-blue-500 ', sources: [sources[3]] },
+      { id: 'election-1956', year: 1956, title: 'Bế tắc hiệp thương – tổng tuyển cử', description: 'VNCH/Mỹ không hiệp thương tổng tuyển cử (1956) → bế tắc thống nhất.', color: 'from-blue-500', sources: [sources[3]] },
+      { id: 'shift-1959', year: 1959, title: 'Chuyển pha đấu tranh ở miền Nam', description: 'Chuẩn bị tổ chức lực lượng chính trị–quân sự ở MN.', color: 'from-blue-500', sources: [sources[2]] },
+      { id: 'nlf-1960', year: 1960, title: 'Thành lập Mặt trận DTGP MN', description: '12/1960 thành lập; 1961 hình thành Quân Giải phóng MN.', color: 'from-blue-500', sources: [sources[3]] },
+      { id: 'specialwar-1961-64', year: 1961, title: '“Chiến tranh đặc biệt”', description: 'Khung tác chiến: cố vấn–viện trợ Mỹ, quân VNCH; ấp chiến lược.', color: 'from-blue-500', sources: [sources[3]] },
+      { id: 'crisis-1963', year: 1963, title: 'Khủng hoảng 1963 & đảo chính', description: 'Biến cố Phật giáo; lật đổ Ngô Đình Diệm.', color: 'from-blue-500', sources: [sources[3]] },
+      { id: 'tonkin-1964', year: 1964, title: 'Sự kiện Vịnh Bắc Bộ', description: '8/1964: Nghị quyết Vịnh Bắc Bộ → mở đường cho can dự trực tiếp của Hoa Kỳ.', color: 'from-blue-500', sources: [sources[3]] },
     ],
     [sources]
   );
@@ -118,15 +118,25 @@ const History: React.FC = () => {
   return (
     <motion.div ref={containerRef} initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className="relative min-h-screen overflow-hidden">
       {/* Background */}
-      <div className="fixed inset-0">
-        <div className="absolute inset-0 bg-gradient-to-br from-indigo-900 via-purple-900 to-pink-900" />
-        <motion.div className="absolute top-20 left-20 w-32 h-32 bg-blue-500 rounded-full opacity-10" animate={{ scale: [1, 1.5, 1], rotate: [0, 180, 360] }} transition={{ duration: 20, repeat: Infinity, ease: 'linear' }} />
-        <motion.div className="absolute bottom-20 right-20 w-24 h-24 bg-purple-500 rounded-lg opacity-10" animate={{ scale: [1, 1.3, 1], rotate: [0, -180, -360] }} transition={{ duration: 15, repeat: Infinity, ease: 'linear' }} />
+      <div className="fixed inset-0 -z-10">
+        {/* Background image */}
+        <div
+          className="absolute inset-0 bg-cover bg-center"
+          style={{
+            backgroundImage: "url('https://vnanet.vn/Data/Articles/2020/01/10/4365851/vna_potal_90_nam_dcs_viet_nam_dang_lanh_dao_ca_nuoc_truc_tiep_chien_dau_chong_de_quoc_my_xam_luoc_1965_%E2%80%93_1973__151902709_stand.jpg')",
+            zIndex: 0,
+            filter: 'brightness(0.55)'
+          }}
+        />
+        {/* Overlay gradient and effects */}
+        <div className="absolute inset-0 bg-gradient-to-br  via-black-900 to-red-900 opacity-80" style={{ zIndex: 1 }} />
+        <motion.div className="absolute top-20 left-20 w-32 h-32 bg-blue-500 rounded-full opacity-10" animate={{ scale: [1, 1.5, 1], rotate: [0, 180, 360] }} transition={{ duration: 20, repeat: Infinity, ease: 'linear' }} style={{ zIndex: 2 }} />
+        <motion.div className="absolute bottom-20 right-20 w-24 h-24 bg-purple-500 rounded-lg opacity-10" animate={{ scale: [1, 1.3, 1], rotate: [0, -180, -360] }} transition={{ duration: 15, repeat: Infinity, ease: 'linear' }} style={{ zIndex: 2 }} />
       </div>
 
       {/* Header */}
       <motion.div style={{ y, opacity }} className="relative z-10 pt-20 pb-10 text-center text-white">
-        <motion.h1 className="text-5xl md:text-7xl font-black mb-6 bg-gradient-to-r from-blue-400 via-purple-500 to-pink-500 bg-clip-text text-transparent" initial={{ scale: 0.9, opacity: 0 }} animate={{ scale: 1, opacity: 1 }} transition={{ type: 'spring', stiffness: 200, delay: 0.1 }}>
+        <motion.h1 className="text-5xl md:text-7xl font-black mb-6 bg-gradient-to-r from-blue-400 via-blue-500  bg-clip-text text-transparent" initial={{ scale: 0.9, opacity: 0 }} animate={{ scale: 1, opacity: 1 }} transition={{ type: 'spring', stiffness: 200, delay: 0.1 }}>
           Dòng thời gian 1954–1964
         </motion.h1>
         <motion.p className="text-xl md:text-2xl text-gray-200 max-w-3xl mx-auto px-4" initial={{ y: 30, opacity: 0 }} animate={{ y: 0, opacity: 1 }} transition={{ delay: 0.25 }}>
@@ -137,17 +147,17 @@ const History: React.FC = () => {
       {/* Ask AI */}
       <motion.div className="relative z-10 max-w-2xl mx-auto px-4 mb-16" initial={{ y: 50, opacity: 0 }} animate={{ y: 0, opacity: 1 }} transition={{ delay: 0.35 }}>
         <motion.div className="backdrop-blur-lg bg-white/10 rounded-3xl p-8 border border-white/20 shadow-2xl" whileHover={{ scale: 1.02 }}>
-          <h2 className="text-2xl font-bold text-white mb-6 text-center">🤖 Hỏi nhanh</h2>
+          <h2 className="text-2xl font-bold text-white mb-6 text-center"> Hỏi nhanh chatbot</h2>
           <div className="relative">
             <motion.input
               type="text"
               value={question}
               onChange={(e) => setQuestion(e.target.value)}
-              placeholder="Hỏi về Genève 1954, Mặt trận 1960, Vịnh Bắc Bộ 1964, hay 'có phải nội chiến?'…"
+              // placeholder="Hỏi về Genève 1954, Mặt trận 1960, Vịnh Bắc Bộ 1964, hay 'có phải nội chiến?'…"
               className="w-full p-4 rounded-2xl bg-white/20 backdrop-blur-sm border border-white/30 text-white placeholder-gray-300 focus:outline-none focus:ring-2 focus:ring-purple-400 focus:border-transparent transition-all duration-300"
               whileFocus={{ scale: 1.01 }}
             />
-            <motion.button onClick={handleSubmit} className="absolute right-2 top-2 bottom-2 px-6 bg-gradient-to-r from-purple-600 to-pink-600 text-white rounded-xl font-semibold shadow-lg" whileHover={{ scale: 1.04 }} whileTap={{ scale: 0.95 }} disabled={loading}>
+            <motion.button onClick={handleSubmit} className="absolute right-2 top-2 bottom-2 px-6 bg-gradient-to-r from-blue-600  text-white rounded-xl font-semibold shadow-lg" whileHover={{ scale: 1.04 }} whileTap={{ scale: 0.95 }} disabled={loading}>
               {loading ? <motion.div animate={{ rotate: 360 }} transition={{ duration: 1, repeat: Infinity, ease: 'linear' }} className="w-5 h-5 border-2 border-white border-t-transparent rounded-full" /> : 'Trả lời'}
             </motion.button>
           </div>
@@ -155,7 +165,7 @@ const History: React.FC = () => {
 
         {response && (
           <motion.div initial={{ opacity: 0, y: 30, scale: 0.98 }} animate={{ opacity: 1, y: 0, scale: 1 }} className="mt-8 backdrop-blur-lg bg-white/10 rounded-3xl p-8 border border-white/20 shadow-2xl">
-            <h3 className="text-2xl font-bold text-white mb-3">🧠 Kết quả:</h3>
+            <h3 className="text-2xl font-bold text-white mb-3"> Kết quả:</h3>
             <p className="text-lg text-gray-100 leading-relaxed">{response}</p>
           </motion.div>
         )}
@@ -163,7 +173,7 @@ const History: React.FC = () => {
 
       {/* Timeline */}
       <motion.div id="timeline" variants={containerVariants} initial="hidden" whileInView="visible" viewport={{ once: true, amount: 0.3 }} className="relative z-10 max-w-6xl mx-auto px-4 pb-10">
-        <motion.h2 className="text-4xl font-bold text-white text-center mb-12" variants={itemVariants}>⏰ Dòng thời gian</motion.h2>
+        <motion.h2 className="text-4xl font-bold text-white text-center mb-12" variants={itemVariants}> Dòng thời gian</motion.h2>
         <div className="relative">
           <div className="absolute left-1/2 -translate-x-1/2 w-1 h-full bg-gradient-to-b from-blue-500 via-purple-500 to-pink-500 rounded-full" />
           {timelineEvents.map((event, index) => (
@@ -174,7 +184,7 @@ const History: React.FC = () => {
 
       {/* Actors */}
       <motion.div className="relative z-10 max-w-6xl mx-auto px-4 pb-10" variants={containerVariants} initial="hidden" whileInView="visible" viewport={{ once: true }}>
-        <motion.h2 className="text-4xl font-bold text-white text-center mb-8" variants={itemVariants}>🧩 Tác nhân chính</motion.h2>
+        <motion.h2 className="text-4xl font-bold text-white text-center mb-8" variants={itemVariants}> Tác nhân chính</motion.h2>
         <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
           {actors.map((a, i) => (
             <motion.div key={a.id} variants={itemVariants} className="backdrop-blur-lg bg-white/10 rounded-3xl p-6 border border-white/20 text-white" whileHover={{ y: -6 }} transition={{ type: 'spring', stiffness: 200 }}>
@@ -191,7 +201,7 @@ const History: React.FC = () => {
 
       {/* Debate */}
       <motion.div id="debate" className="relative z-10 max-w-6xl mx-auto px-4 pb-16" variants={containerVariants} initial="hidden" whileInView="visible" viewport={{ once: true }}>
-        <motion.h2 className="text-4xl font-bold text-white text-center mb-8" variants={itemVariants}>⚖️ Tranh luận: 1954–1964 có phải “nội chiến”?</motion.h2>
+        <motion.h2 className="text-4xl font-bold text-white text-center mb-8" variants={itemVariants}> Tranh luận: 1954–1964 có phải “nội chiến”?</motion.h2>
         <div className="grid lg:grid-cols-2 gap-6">
           <motion.div className="backdrop-blur-lg bg-white/10 rounded-3xl p-6 border border-white/20 text-white" variants={itemVariants}>
             <h3 className="text-xl font-semibold mb-2">Khung định nghĩa (tóm lược)</h3>
@@ -233,7 +243,7 @@ const History: React.FC = () => {
       {/* NEW: Conclusion */}
       <motion.div id="conclusion" className="relative z-10 max-w-5xl mx-auto px-4 pb-16" initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }}>
         <div className="backdrop-blur-lg bg-white/10 rounded-3xl p-8 border border-white/20 text-white shadow-2xl">
-          <h2 className="text-4xl font-bold mb-3">🧾 Kết luận</h2>
+          <h2 className="text-4xl font-bold mb-3"> Kết luận</h2>
           <p className="text-white/90 leading-relaxed text-lg">
             Dựa trên các dữ kiện cốt lõi, <b>giai đoạn 1954–1964 không phải “nội chiến” theo nghĩa hẹp</b>. Lý do:
           </p>
@@ -256,7 +266,7 @@ const History: React.FC = () => {
 
       {/* Sources */}
       <motion.div className="relative z-10 max-w-6xl mx-auto px-4 pb-24" variants={containerVariants} initial="hidden" whileInView="visible" viewport={{ once: true }}>
-        <motion.h2 className="text-3xl font-bold text-white text-center mb-6" variants={itemVariants}>🔎 Nguồn tham khảo (Version 1)</motion.h2>
+        <motion.h2 className="text-3xl font-bold text-white text-center mb-6" variants={itemVariants}> Nguồn tham khảo (Version 1)</motion.h2>
         <div className="backdrop-blur-lg bg-white/10 rounded-3xl p-6 border border-white/20 text-white">
           <ul className="list-disc list-inside space-y-2 text-white/90">
             {sources.map((s) => (
@@ -293,7 +303,7 @@ const TimelineEvent: React.FC<{
           <motion.div className="absolute inset-0 bg-gradient-to-br from-white/20 to-transparent rounded-3xl opacity-0" animate={{ opacity: isActive ? 1 : 0 }} transition={{ duration: 0.25 }} />
           <div className="relative z-10">
             <div className="flex items-center gap-3 mb-2">
-              <span className="text-2xl">{event.icon}</span>
+              {/* <span className="text-2xl">{event.icon}</span> */}
               <h3 className="text-2xl font-bold text-white">{event.year}</h3>
             </div>
             <h4 className="text-lg font-semibold text-white mb-1">{event.title}</h4>
