@@ -18,6 +18,23 @@ type EventItem = {
   color: string;
 };
 
+const ArrowLeftIcon: React.FC<React.SVGProps<SVGSVGElement>> = (props) => (
+  <svg {...props} xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+    <path d="m12 19-7-7 7-7" />
+    <path d="M19 12H5" />
+  </svg>
+);
+
+const SparklesIcon: React.FC<React.SVGProps<SVGSVGElement>> = (props) => (
+  <svg {...props} xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+    <path d="m12 3-1.9 3.8-3.8 1.9 3.8 1.9L12 14.4l1.9-3.8 3.8-1.9-3.8-1.9z" />
+    <path d="M5 12h.01" />
+    <path d="M19 12h.01" />
+    <path d="M12 5v.01" />
+    <path d="M12 19v.01" />
+  </svg>
+);
+
 const formatEventYear = (e: EventItem) => {
   const s = e.startYear, t = e.endYear;
   if (s && t) return (
@@ -99,139 +116,179 @@ const History: React.FC = () => {
   // ========= Timeline Events  =========
   const timelineEvents: EventItem[] = useMemo(
     () => [
-    {
-      id: 'geneva-1954',
-      year: 1954,
-      title: 'Hiệp định Genève',
-      description: 'Đình chỉ chiến sự; giới tuyến quân sự tạm thời; dự kiến tổng tuyển cử thống nhất.',
-      details: (
-        <ul className="list-disc pl-5 space-y-1">
-          <li>Thiết lập giới tuyến quân sự tạm thời ở vĩ tuyến 17; lực lượng hai bên tập kết.</li>
-          <li>Dự kiến hiệp thương tổng tuyển cử trong năm 1956 để thống nhất đất nước.</li>
-          <li>Quốc tế công nhận tính tạm thời của ranh giới; không phải chia cắt vĩnh viễn.</li>
-        </ul>
-      ),
-      color: 'from-blue-500 ',
-    },
+      {
+        id: 'geneva-1954',
+        year: 1954,
+        title: 'Hiệp định Genève',
+        description: 'Đình chỉ chiến sự; giới tuyến quân sự tạm thời; dự kiến tổng tuyển cử thống nhất.',
+        details: (
+          <ul className="list-disc pl-5 space-y-1">
+            <li>Thiết lập giới tuyến quân sự tạm thời ở vĩ tuyến 17; lực lượng hai bên tập kết.</li>
+            <li>Dự kiến hiệp thương tổng tuyển cử trong năm 1956 để thống nhất đất nước.</li>
+            <li>Quốc tế công nhận tính tạm thời của ranh giới; không phải chia cắt vĩnh viễn.</li>
+          </ul>
+        ),
+        color: 'from-blue-500 ',
+      },
 
-    {
-      id: 'phase-1954-58',
-      startYear: 1954,
-      endYear: 1958,
-      title: 'Tái thiết MB, củng cố MN',
-      description: 'MB: củng cố hậu phương; MN: “tố cộng diệt cộng”, Luật 10-59 (1957–1959) đàn áp phong trào.',
-      details: (
-        <ul className="list-disc pl-5 space-y-1">
-          <li>Trung ương 6 (7/1954), Bộ Chính trị 9/1954, TƯ 7 & 8 (1955): ưu tiên củng cố miền Bắc, đấu tranh thống nhất.</li>
-          <li>Miền Nam: chính quyền Ngô Đình Diệm bình định, chiến dịch “tố cộng diệt cộng”.</li>
-          <li>Luật 10–59 lập toà án quân sự đặc biệt, mức án nặng; ảnh hưởng lớn đến phong trào cách mạng ở MN.</li>
-        </ul>
-      ),
-      color: 'from-blue-500',
-    },
+      {
+        id: 'phase-1954-58',
+        startYear: 1954,
+        endYear: 1958,
+        title: 'Tái thiết MB, củng cố MN',
+        description: 'MB: củng cố hậu phương; MN: “tố cộng diệt cộng”, Luật 10-59 (1957–1959) đàn áp phong trào.',
+        details: (
+          <ul className="list-disc pl-5 space-y-1">
+            <li>Trung ương 6 (7/1954), Bộ Chính trị 9/1954, TƯ 7 & 8 (1955): ưu tiên củng cố miền Bắc, đấu tranh thống nhất.</li>
+            <li>Miền Nam: chính quyền Ngô Đình Diệm bình định, chiến dịch “tố cộng diệt cộng”.</li>
+            <li>Luật 10–59 lập toà án quân sự đặc biệt, mức án nặng; ảnh hưởng lớn đến phong trào cách mạng ở MN.</li>
+          </ul>
+        ),
+        color: 'from-blue-500',
+      },
 
-    {
-      id: 'election-1955-56',
-      startYear: 1955,
-      endYear: 1956,
-      title: 'Bế tắc hiệp thương – tổng tuyển cử',
-      description: 'VNCH/Mỹ không hiệp thương tổng tuyển cử (1956) → bế tắc thống nhất.',
-      details: (
-        <ul className="list-disc pl-5 space-y-1">
-          <li>Hai miền không đạt đồng thuận về tổ chức tổng tuyển cử theo tinh thần Genève.</li>
-          <li>Bế tắc chính trị tạo nền cho chuyển pha đấu tranh tại MN giai đoạn sau.</li>
-        </ul>
-      ),
-      color: 'from-blue-500',
-    },
+      {
+        id: 'election-1955-56',
+        startYear: 1955,
+        endYear: 1956,
+        title: 'Bế tắc hiệp thương – tổng tuyển cử',
+        description: 'VNCH/Mỹ không hiệp thương tổng tuyển cử (1956) → bế tắc thống nhất.',
+        details: (
+          <ul className="list-disc pl-5 space-y-1">
+            <li>Hai miền không đạt đồng thuận về tổ chức tổng tuyển cử theo tinh thần Genève.</li>
+            <li>Bế tắc chính trị tạo nền cho chuyển pha đấu tranh tại MN giai đoạn sau.</li>
+          </ul>
+        ),
+        color: 'from-blue-500',
+      },
 
-    {
-      id: 'shift-1959-60',
-      startYear: 1959,
-      endYear: 1960,
-      title: 'Chuyển pha đấu tranh ở miền Nam',
-      description: 'Triển khai Nghị quyết 15 (1959) → cơ sở cho Đồng khởi lan rộng 1959–1960.',
-      details: (
-        <ul className="list-disc pl-5 space-y-1">
-          <li>NQ 15 xác lập hai nhiệm vụ chiến lược: CNXH ở MB; CM dân tộc–dân chủ ở MN.</li>
-          <li>Con đường cơ bản ở MN: khởi nghĩa giành chính quyền khi có điều kiện.</li>
-          <li>Đồng khởi bùng nổ từ Bến Tre lan rộng, làm tan rã một mảng chính quyền cơ sở VNCH ở nông thôn.</li>
-        </ul>
-      ),
-      color: 'from-blue-500',
-    },
+      {
+        id: 'shift-1959-60',
+        startYear: 1959,
+        endYear: 1960,
+        title: 'Chuyển pha đấu tranh ở miền Nam',
+        description: 'Triển khai Nghị quyết 15 (1959) → cơ sở cho Đồng khởi lan rộng 1959–1960.',
+        details: (
+          <ul className="list-disc pl-5 space-y-1">
+            <li>NQ 15 xác lập hai nhiệm vụ chiến lược: CNXH ở MB; CM dân tộc–dân chủ ở MN.</li>
+            <li>Con đường cơ bản ở MN: khởi nghĩa giành chính quyền khi có điều kiện.</li>
+            <li>Đồng khởi bùng nổ từ Bến Tre lan rộng, làm tan rã một mảng chính quyền cơ sở VNCH ở nông thôn.</li>
+          </ul>
+        ),
+        color: 'from-blue-500',
+      },
 
-    {
-      id: 'nlf-1960-61',
-      startYear: 1960,
-      endYear: 1961,
-      title: 'MTDTGPMN & Quân Giải phóng',
-      description: '12/1960 thành lập Mặt trận; 2/1961 hình thành Quân Giải phóng MN.',
-      details: (
-        <ul className="list-disc pl-5 space-y-1">
-          <li>Mặt trận là liên minh chính trị rộng rãi của các lực lượng ở MN.</li>
-          <li>QGP MN ra đời 2/1961, thống nhất lực lượng vũ trang cách mạng tại chỗ.</li>
-          <li>Tạo thế đối trọng chính trị – quân sự với bộ máy VNCH ở nông thôn.</li>
-        </ul>
-      ),
-      color: 'from-blue-500',
-    },
+      {
+        id: 'nlf-1960-61',
+        startYear: 1960,
+        endYear: 1961,
+        title: 'MTDTGPMN & Quân Giải phóng',
+        description: '12/1960 thành lập Mặt trận; 2/1961 hình thành Quân Giải phóng MN.',
+        details: (
+          <ul className="list-disc pl-5 space-y-1">
+            <li>Mặt trận là liên minh chính trị rộng rãi của các lực lượng ở MN.</li>
+            <li>QGP MN ra đời 2/1961, thống nhất lực lượng vũ trang cách mạng tại chỗ.</li>
+            <li>Tạo thế đối trọng chính trị – quân sự với bộ máy VNCH ở nông thôn.</li>
+          </ul>
+        ),
+        color: 'from-blue-500',
+      },
 
-    {
-      id: 'specialwar-1961-64',
-      startYear: 1961,
-      endYear: 1964,
-      title: '“Chiến tranh đặc biệt”',
-      description: 'Cố vấn–viện trợ Mỹ, quân VNCH tác chiến; ấp chiến lược, trực thăng vận.',
-      details: (
-        <ul className="list-disc pl-5 space-y-1">
-          <li>Kế hoạch Staley–Taylor: Mỹ cung cấp cố vấn, vũ khí, hậu cần; VNCH tác chiến chủ lực.</li>
-          <li>“Ấp chiến lược” nhằm cô lập lực lượng cách mạng ở nông thôn.</li>
-          <li>Thích ứng chiến thuật của phía cách mạng: điển hình trận Ấp Bắc (1/1963).</li>
-          <li>Khủng hoảng chính trị dẫn đến đảo chính 11/1963, làm suy yếu VNCH.</li>
-        </ul>
-      ),
-      color: 'from-blue-500',
-    },
+      {
+        id: 'specialwar-1961-64',
+        startYear: 1961,
+        endYear: 1964,
+        title: '“Chiến tranh đặc biệt”',
+        description: 'Cố vấn–viện trợ Mỹ, quân VNCH tác chiến; ấp chiến lược, trực thăng vận.',
+        details: (
+          <ul className="list-disc pl-5 space-y-1">
+            <li>Kế hoạch Staley–Taylor: Mỹ cung cấp cố vấn, vũ khí, hậu cần; VNCH tác chiến chủ lực.</li>
+            <li>“Ấp chiến lược” nhằm cô lập lực lượng cách mạng ở nông thôn.</li>
+            <li>Thích ứng chiến thuật của phía cách mạng: điển hình trận Ấp Bắc (1/1963).</li>
+            <li>Khủng hoảng chính trị dẫn đến đảo chính 11/1963, làm suy yếu VNCH.</li>
+          </ul>
+        ),
+        color: 'from-blue-500',
+      },
 
-    {
-      id: 'crisis-1963',
-      year: 1963,
-      title: 'Khủng hoảng 1963 & đảo chính',
-      description: 'Biến cố Phật giáo; lật đổ Ngô Đình Diệm (11/1963).',
-      details: (
-        <ul className="list-disc pl-5 space-y-1">
-          <li>Khủng hoảng Phật giáo bùng nổ sau các sự kiện đàn áp.</li>
-          <li>Đảo chính 11/1963: chế độ Ngô Đình Diệm sụp đổ, tình trạng bất ổn kéo dài.</li>
-        </ul>
-      ),
-      color: 'from-blue-500',
-    },
+      {
+        id: 'crisis-1963',
+        year: 1963,
+        title: 'Khủng hoảng 1963 & đảo chính',
+        description: 'Biến cố Phật giáo; lật đổ Ngô Đình Diệm (11/1963).',
+        details: (
+          <ul className="list-disc pl-5 space-y-1">
+            <li>Khủng hoảng Phật giáo bùng nổ sau các sự kiện đàn áp.</li>
+            <li>Đảo chính 11/1963: chế độ Ngô Đình Diệm sụp đổ, tình trạng bất ổn kéo dài.</li>
+          </ul>
+        ),
+        color: 'from-blue-500',
+      },
 
-    {
-      id: 'tonkin-1964',
-      year: 1964,
-      title: 'Sự kiện Vịnh Bắc Bộ',
-      description: '8/1964: Nghị quyết Vịnh Bắc Bộ → mở đường cho can dự trực tiếp của Hoa Kỳ.',
-      details: (
-        <ul className="list-disc pl-5 space-y-1">
-          <li>Quốc hội Mỹ trao quyền rộng cho hành pháp (Gulf of Tonkin Resolution).</li>
-          <li>Sau đó Mỹ oanh kích miền Bắc (Pierce Arrow) và chuẩn bị đưa quân (sang 1965).</li>
-          <li>“Chiến tranh đặc biệt” bộc lộ thất bại; chuyển sang “chiến tranh cục bộ”.</li>
-        </ul>
-      ),
-      color: 'from-blue-500',
-    },
-  ],
-  []
+      {
+        id: 'tonkin-1964',
+        year: 1964,
+        title: 'Sự kiện Vịnh Bắc Bộ',
+        description: '8/1964: Nghị quyết Vịnh Bắc Bộ → mở đường cho can dự trực tiếp của Hoa Kỳ.',
+        details: (
+          <ul className="list-disc pl-5 space-y-1">
+            <li>Quốc hội Mỹ trao quyền rộng cho hành pháp (Gulf of Tonkin Resolution).</li>
+            <li>Sau đó Mỹ oanh kích miền Bắc (Pierce Arrow) và chuẩn bị đưa quân (sang 1965).</li>
+            <li>“Chiến tranh đặc biệt” bộc lộ thất bại; chuyển sang “chiến tranh cục bộ”.</li>
+          </ul>
+        ),
+        color: 'from-blue-500',
+      },
+    ],
+    []
   );
 
   const actors: Actor[] = useMemo(
     () => [
-      { id: 'north', name: 'Miền Bắc (VNDCCH)', role: 'Hậu phương chiến lược', summary: 'Xây dựng CNXH ở MB; chi viện MN; mục tiêu thống nhất.', highlights: ['Hai nhiệm vụ chiến lược (ĐH III, 1960)', 'Hậu phương quyết định', 'Mục tiêu độc lập–thống nhất'] },
-      { id: 'south', name: 'Miền Nam (VNCH)', role: 'Chính thể tại MN', summary: 'Nhà nước tại MN, nhận viện trợ/cố vấn Mỹ; bình định; khủng hoảng 1963.', highlights: ['Cố vấn/viện trợ Hoa Kỳ', 'Ấp chiến lược', 'Khủng hoảng 1963'] },
-      { id: 'nlf', name: 'Mặt trận DTGP MN / QGP', role: 'Tổ chức chính trị–quân sự ở MN', summary: 'Thành lập 1960; QGP 1961; lực lượng đấu tranh tại MN.', highlights: ['MTDTGP 1960', 'QGP 1961', 'Hoạt động chính trị–quân sự'] },
-      { id: 'us', name: 'Hoa Kỳ', role: 'Tác nhân quốc tế', summary: 'Từ viện trợ–cố vấn đến “chiến tranh đặc biệt”, rồi bước ngoặt 1964.', highlights: ['Cố vấn/viện trợ', 'Chiến tranh đặc biệt', 'Vịnh Bắc Bộ 1964'] },
+      {
+        id: 'party-line',
+        name: 'Đường lối của Đảng',
+        role: 'Tóm lược mốc chính',
+        summary: 'Đặc điểm: một Đảng lãnh đạo hai cuộc cách mạng Bắc–Nam; cơ sở định ra chiến lược chung.',
+        highlights: [
+          'NQ 15 (1959): hợp thức hóa đấu tranh vũ trang ở MN',
+          'ĐH III (1960): hoàn chỉnh đường lối chiến lược chung',
+          'Ý nghĩa: sức mạnh tổng hợp chống Mỹ'
+        ]
+      },
+      {
+        id: 'north-meaning',
+        name: 'Vai trò Miền Bắc',
+        role: 'Hậu phương lớn',
+        summary: 'Xây dựng CNXH; chủ trương công–nông nghiệp; chuẩn bị lực lượng cho kháng chiến lâu dài.',
+        highlights: [
+          'Hậu phương quyết định',
+          'Nghị quyết 1961–1964',
+          'Cơ sở vững chắc cho đấu tranh'
+        ]
+      },
+      {
+        id: 'south-meaning',
+        name: 'Vai trò Miền Nam',
+        role: 'Tiền tuyến lớn',
+        summary: 'Đồng khởi thay đổi tương quan lực lượng; MTDTGPMN ra đời tạo chính trị–quân sự hợp pháp.',
+        highlights: [
+          'Đồng khởi 1959–1960',
+          'MTDTGPMN 1960',
+          'Quân Giải phóng 1961'
+        ]
+      },
+      {
+        id: 'strategic',
+        name: 'Tầm vóc chiến lược',
+        role: 'Hai nhiệm vụ chiến lược',
+        summary: 'Huy động sức mạnh cả nước và quốc tế; đặt nền cho thắng lợi trước “chiến tranh đặc biệt”.',
+        highlights: [
+          'Sức mạnh toàn dân',
+          'Ủng hộ quốc tế',
+          'Bước chuẩn bị cho 1965–1975'
+        ]
+      },
     ],
     []
   );
@@ -242,13 +299,15 @@ const History: React.FC = () => {
   return (
     <motion.div ref={containerRef} initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className="relative min-h-screen overflow-hidden">
       {/* Back Button */}
-      <button
+      <motion.button
         onClick={() => navigate(-1)}
-        className="fixed top-6 left-6 z-20 bg-white/20 hover:bg-white/30 text-white font-semibold px-5 py-2 rounded-xl shadow-lg backdrop-blur border border-white/30 transition-all duration-200"
-        style={{ backdropFilter: 'blur(6px)' }}
+        className="fixed top-6 left-6 z-50 flex items-center gap-2 bg-white/10 hover:bg-white/20 text-white font-semibold px-4 py-2 rounded-full shadow-lg backdrop-blur-md border border-white/20 transition-all duration-200"
+        whileHover={{ scale: 1.05 }}
+        whileTap={{ scale: 0.95 }}
       >
-        ← Quay lại
-      </button>
+        <ArrowLeftIcon className="w-5 h-5" />
+        Quay lại
+      </motion.button>
       {/* Background */}
       <div className="fixed inset-0 -z-10">
         {/* Background image */}
@@ -278,8 +337,9 @@ const History: React.FC = () => {
 
       {/* Ask AI */}
       <motion.div className="relative z-10 max-w-2xl mx-auto px-4 mb-16" initial={{ y: 50, opacity: 0 }} animate={{ y: 0, opacity: 1 }} transition={{ delay: 0.35 }}>
-        <motion.div className="backdrop-blur-lg bg-white/10 rounded-3xl p-8 border border-white/20 shadow-2xl" whileHover={{ scale: 1.02 }}>
-          <h2 className="text-2xl font-bold text-white mb-6 text-center"> Hỏi nhanh AI </h2>
+        <motion.div className="backdrop-blur-lg bg-white/10 rounded-3xl p-6 md:p-8 border border-white/20 shadow-2xl" whileHover={{ scale: 1.02, transition: { duration: 0.2 } }}>
+          <h2 className="text-2xl md:text-3xl font-bold text-white mb-6 text-center flex items-center justify-center gap-3">
+            <SparklesIcon className="w-7 h-7 text-purple-300" /> Hỏi nhanh AI </h2>
           <div className="relative">
             <motion.input
               type="text"
@@ -315,16 +375,18 @@ const History: React.FC = () => {
       </motion.div>
 
       {/* Actors */}
-      <motion.div className="relative z-10 max-w-6xl mx-auto px-4 pb-10" variants={containerVariants} initial="hidden" whileInView="visible" viewport={{ once: true }}>
-        <motion.h2 className="text-4xl font-bold text-white text-center mb-8" variants={itemVariants}> Tác nhân chính</motion.h2>
+      <motion.div className="relative z-10 max-w-6xl mx-auto px-4 pb-20" variants={containerVariants} initial="hidden" whileInView="visible" viewport={{ once: true }}>
+        <motion.h2 className="text-4xl font-bold text-white text-center mb-12" variants={itemVariants}>Đường lối & Vai trò các bên</motion.h2>
         <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
-          {actors.map((a, i) => (
-            <motion.div key={a.id} variants={itemVariants} className="backdrop-blur-lg bg-white/10 rounded-3xl p-6 border border-white/20 text-white" whileHover={{ y: -6 }} transition={{ type: 'spring', stiffness: 200 }}>
-              <h3 className="text-xl font-semibold mb-1">{a.name}</h3>
-              <p className="text-sm text-blue-200 mb-3">{a.role}</p>
-              <p className="text-white/90 text-sm mb-3">{a.summary}</p>
-              <ul className="text-sm space-y-1 list-disc list-inside text-white/80">
-                {a.highlights.map((h) => <li key={h}>{h}</li>)}
+          {actors.map((a) => (
+            <motion.div key={a.id} variants={itemVariants} className="backdrop-blur-lg bg-white/10 rounded-3xl p-6 border border-white/20 text-white flex flex-col" whileHover={{ y: -8, scale: 1.03 }} transition={{ type: 'spring', stiffness: 200 }}>
+              <div className="flex-grow">
+                <span className="inline-block bg-blue-900/50 text-blue-200 text-xs font-medium px-2.5 py-1 rounded-full mb-3">{a.role}</span>
+                <h3 className="text-xl font-semibold mb-2">{a.name}</h3>
+                <p className="text-white/80 text-sm mb-4 leading-relaxed">{a.summary}</p>
+              </div>
+              <ul className="text-sm space-y-2 text-white/90">
+                {a.highlights.map((h) => <li key={h} className="flex items-start gap-2"><span className="text-blue-300 mt-1">✓</span>{h}</li>)}
               </ul>
             </motion.div>
           ))}
@@ -332,72 +394,86 @@ const History: React.FC = () => {
       </motion.div>
 
       {/* Debate */}
-      <motion.div id="debate" className="relative z-10 max-w-6xl mx-auto px-4 pb-16" variants={containerVariants} initial="hidden" whileInView="visible" viewport={{ once: true }}>
-        <motion.h2 className="text-4xl font-bold text-white text-center mb-8" variants={itemVariants}> Tranh luận: 1954–1964 có phải “nội chiến”?</motion.h2>
-        <div className="grid lg:grid-cols-2 gap-6">
-          <motion.div className="backdrop-blur-lg bg-white/10 rounded-3xl p-6 border border-white/20 text-white" variants={itemVariants}>
-            <h3 className="text-xl font-semibold mb-2">Khung định nghĩa (tóm lược)</h3>
-            <p className="text-white/90 text-sm">“Nội chiến”: xung đột vũ trang giữa các lực lượng có tổ chức trong cùng một quốc gia để tranh chấp quyền lực nhà nước; có thể có can thiệp ngoài, nhưng nếu mức độ can thiệp quyết định cục diện thì bản chất vượt ra ngoài “nội chiến thuần túy”.</p>
-            <h4 className="mt-4 font-semibold">Dữ kiện đối chiếu</h4>
-            <ul className="list-disc list-inside text-white/90 text-sm space-y-1">
-              <li>Genève 1954: chia cắt <i>tạm thời</i>, dự kiến tổng tuyển cử thống nhất.</li>
-              <li>VNCH/Mỹ không hiệp thương 1956 → bế tắc thống nhất.</li>
-              <li>MTDTGP 1960; QGP 1961 (thành tố nội bộ ở MN).</li>
-              <li>“Chiến tranh đặc biệt” & Vịnh Bắc Bộ 1964 → quốc tế hóa sâu sắc.</li>
-            </ul>
-          </motion.div>
-          <motion.div className="backdrop-blur-lg bg-white/10 rounded-3xl p-6 border border-white/20 text-white" variants={itemVariants}>
-            <h3 className="text-xl font-semibold mb-2">Kết luận biện luận (ngắn gọn)</h3>
-            <p className="text-white/90 text-sm leading-relaxed">
-              Gọi 1954–1964 là “nội chiến” là phiến diện. Hợp lý hơn: xung đột chính trị–quân sự có thành tố nội bộ ở miền Nam, nhưng quốc tế hóa sâu — trong bối cảnh một quốc gia tạm bị chia cắt và mục tiêu thống nhất được xác lập rõ trong đường lối chính thức.
-            </p>
-            <div className="mt-4 grid sm:grid-cols-2 gap-3 text-sm">
-              <div className="bg-white/5 rounded-2xl p-3 border border-white/10">
-                <div className="font-semibold">Phía ủng hộ “nội chiến”</div>
-                <ul className="list-disc list-inside text-white/80">
-                  <li>Hai chính thể & lực lượng vũ trang người Việt đối đầu tại MN.</li>
-                  <li>Giao tranh chủ yếu trên lãnh thổ miền Nam.</li>
-                </ul>
-              </div>
-              <div className="bg-white/5 rounded-2xl p-3 border border-white/10">
-                <div className="font-semibold">Phản biện “không thuần nội chiến”</div>
-                <ul className="list-disc list-inside text-white/80">
-                  <li>Genève: một quốc gia tạm chia, chờ tổng tuyển cử.</li>
-                  <li>Can dự quốc tế mang tính quyết định (1961–1964, 1964).</li>
-                  <li>Mục tiêu thống nhất toàn quốc trong đường lối chính thức.</li>
-                </ul>
-              </div>
-            </div>
-          </motion.div>
-        </div>
+<motion.div id="debate" className="relative z-10 max-w-5xl mx-auto px-4 pb-20" variants={containerVariants} initial="hidden" whileInView="visible" viewport={{ once: true }}>
+        <motion.h2 className="text-4xl font-bold text-white text-center mb-12" variants={itemVariants}>
+          Phản biện: "Nội chiến" hay "Kháng chiến"?
+        </motion.h2>
+        <motion.div className="backdrop-blur-lg bg-white/10 rounded-3xl border border-white/20 text-white p-6 md:p-10 space-y-6" variants={itemVariants}>
+          <DebatePoint title="Yếu tố quốc tế & quy chế pháp lý sau Genève">
+            <li>Genève xác định chia cắt chỉ là <b className="text-blue-300">tạm thời</b>, hướng tới tổng tuyển cử 7/1956; không phải hai quốc gia độc lập.</li>
+          </DebatePoint>
+          <DebatePoint title="Sự can dự quyết định của Hoa Kỳ">
+            <li>VNCH từ chối tổng tuyển cử dưới sự bảo trợ của Mỹ.</li>
+            <li>Mỹ tài trợ <b className="text-blue-300">~80% ngân sách quân sự VNCH</b> thời kỳ đầu; nâng cấp thành “chiến tranh đặc biệt”.</li>
+          </DebatePoint>
+          <DebatePoint title="Bản chất đường lối cách mạng">
+            <li>NQ 15 và ĐH III xác định MN là cách mạng dân tộc–dân chủ <b className="text-blue-300">chống đế quốc và tay sai</b>.</li>
+            <li>Mục tiêu: thống nhất đất nước → đấu tranh giải phóng dân tộc, không phải “nội chiến” điển hình.</li>
+          </DebatePoint>
+          <DebatePoint title="Biện pháp đàn áp & nấc thang 1964">
+            <li>Luật 10–59, hệ thống ấp chiến lược, cố vấn Mỹ → mô hình “thuộc địa kiểu mới”.</li>
+            <li>Sự kiện Vịnh Bắc Bộ (8/1964) → cớ pháp lý Mỹ mở rộng chiến tranh, <b className="text-blue-300">quốc tế hóa sâu sắc</b>.</li>
+          </DebatePoint>
+        </motion.div>
       </motion.div>
 
       {/* NEW: Conclusion */}
-      <motion.div id="conclusion" className="relative z-10 max-w-5xl mx-auto px-4 pb-16" initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }}>
-        <div className="backdrop-blur-lg bg-white/10 rounded-3xl p-8 border border-white/20 text-white shadow-2xl">
-          <h2 className="text-4xl font-bold mb-3"> Kết luận</h2>
-          <p className="text-white/90 leading-relaxed text-lg">
-            Dựa trên các dữ kiện cốt lõi, <b>giai đoạn 1954–1964 không phải “nội chiến” theo nghĩa hẹp</b>. Lý do:
+      {/* Conclusion */}
+      <motion.div
+        id="conclusion"
+        className="relative z-10 max-w-5xl mx-auto px-4 pb-24"
+        initial={{ opacity: 0, y: 30 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true }}
+        transition={{ duration: 0.5 }}
+      >
+        <div className="backdrop-blur-lg bg-gradient-to-br from-white/15 to-white/5 rounded-3xl p-8 border border-white/20 text-white shadow-2xl">
+          <h2 className="text-4xl font-bold mb-5">Kết luận</h2>
+          <p className="text-white/95 leading-relaxed text-lg p-4 bg-black/20 rounded-xl border border-white/10">
+            <b>Kết luận phản biện:</b> Giai đoạn 1954–1964 <b className="text-blue-300">không thể quy giản thành “nội chiến”</b>.
+            Đây là một <b className="text-blue-300">cuộc đấu tranh giải phóng dân tộc</b> trong bối cảnh Chiến tranh Lạnh,
+            nơi Hoa Kỳ đóng vai trò can thiệp quyết định ở miền Nam.
           </p>
-          <ul className="list-disc list-inside mt-3 space-y-2 text-white/90">
-            <li><b>Cơ sở pháp–chính trị sau Genève:</b> Việt Nam là <i>một quốc gia tạm thời chia cắt</i> chờ tổng tuyển cử thống nhất; việc phía VNCH/Mỹ không hiệp thương (1956) làm bế tắc tiến trình thống nhất.</li>
-            <li><b>Quốc tế hóa quyết định:</b> Vai trò cố vấn/viện trợ của Hoa Kỳ trong khuôn khổ “chiến tranh đặc biệt” (1961–1964) và bước ngoặt <i>Vịnh Bắc Bộ 1964</i> vượt khỏi mô hình “xung đột nội bộ thuần túy”.</li>
-            <li><b>Đường lối chính thức:</b> Xác định mục tiêu độc lập–thống nhất của <i>toàn quốc</i>, miền Bắc là hậu phương quyết định, miền Nam quyết định trực tiếp.</li>
-          </ul>
-          <p className="mt-4 text-white/80">
-            Vì vậy, mô tả phù hợp hơn là: <i>xung đột chính trị–quân sự có thành tố nội bộ ở miền Nam, nhưng được quốc tế hóa sâu sắc</i>.
+
+          <div className="grid md:grid-cols-2 gap-6 mt-6">
+            <ConclusionPoint title="Cơ sở pháp–chính trị sau Genève">
+              Việt Nam là một quốc gia tạm thời chia cắt chờ tổng tuyển cử. Việc VNCH/Mỹ từ chối hiệp thương (1956) khiến tranh chấp kéo dài, không phải hai quốc gia độc lập quyết chiến.
+            </ConclusionPoint>
+            <ConclusionPoint title="Yếu tố quốc tế hóa quyết định">
+              Viện trợ, cố vấn, “chiến tranh đặc biệt”, rồi sự kiện Vịnh Bắc Bộ 1964 mở đường cho Mỹ trực tiếp can thiệp, vượt xa mô hình “xung đột nội bộ thuần túy”.
+            </ConclusionPoint>
+          </div>
+           <p className="mt-6 text-white/90 text-lg p-4 bg-black/20 rounded-xl">
+            <b>→ Tóm lại:</b> Giai đoạn 1954–1964 là một <i className="font-semibold text-blue-300">xung đột chính trị–quân sự có thành tố nội bộ, nhưng được quốc tế hóa sâu sắc</i>, trong bối cảnh một quốc gia bị chia cắt tạm thời và đấu tranh hướng tới thống nhất.
           </p>
-          <div className="mt-5 text-sm text-white/80">
-            <span className="opacity-80">Nguồn tham chiếu nhanh: </span>
-            <a className="underline decoration-dotted hover:opacity-90" href={sources[0].url} target="_blank" rel="noreferrer">Loigiaihay (Đường lối 1954–1964)</a>,{' '}
-            <a className="underline decoration-dotted hover:opacity-90" href={sources[3].url} target="_blank" rel="noreferrer">Wikipedia (1954–1959…)</a>,{' '}
-            <a className="underline decoration-dotted hover:opacity-90" href={sources[1].url} target="_blank" rel="noreferrer">Studocu (tranh luận)</a>.
+          <div className="mt-6 text-sm text-white/70">
+            <span className="opacity-80">Nguồn tham chiếu: </span>
+            <a className="underline decoration-dotted hover:text-white transition-colors" href={sources[0].url} target="_blank" rel="noreferrer">Loigiaihay</a>,{' '}
+            <a className="underline decoration-dotted hover:text-white transition-colors" href={sources[3].url} target="_blank" rel="noreferrer">Wikipedia</a>,{' '}
+            <a className="underline decoration-dotted hover:text-white transition-colors" href={sources[1].url} target="_blank" rel="noreferrer">Studocu</a>.
           </div>
         </div>
       </motion.div>
     </motion.div>
   );
 };
+
+const DebatePoint: React.FC<{ title: string; children: React.ReactNode }> = ({ title, children }) => (
+  <div>
+    <h3 className="text-xl font-semibold mb-3 tracking-tight text-blue-200">{title}</h3>
+    <ul className="space-y-2 text-white/90 text-base">
+      {children}
+    </ul>
+    <div className="mt-6 border-t border-white/10" />
+  </div>
+);
+
+const ConclusionPoint: React.FC<{ title: string, children: React.ReactNode }> = ({ title, children }) => (
+    <div className="bg-black/20 p-4 rounded-xl border border-white/10">
+        <h4 className="font-semibold text-blue-300 mb-2">{title}</h4>
+        <p className="text-white/80 text-sm leading-relaxed">{children}</p>
+    </div>
+);
 
 // ========= Timeline Event =========
 const TimelineEvent: React.FC<{
@@ -463,6 +539,5 @@ const TimelineEvent: React.FC<{
     </motion.div>
   );
 };
-
 
 export default History;
