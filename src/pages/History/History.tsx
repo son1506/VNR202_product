@@ -1,7 +1,8 @@
 // History.tsx — Timeline + Actors + Debate + Conclusion + Sources (1954–1964)
 import React, { useMemo, useRef, useState, useEffect } from 'react';
+import { askGemini } from '../../app/modules/chatbot';
 import { motion, useInView, useScroll, useTransform } from 'framer-motion';
-import { useLocation } from 'react-router-dom'; // NEW: đọc hash để cuộn
+import { useLocation, useNavigate } from 'react-router-dom'; // NEW: đọc hash để cuộn và quay lại
 
 // ========= Types =========
 type SourceRef = { label: string; url: string };
@@ -10,43 +11,10 @@ type EventItem = {
   id: string; year: number; title: string; description: string; color: string; sources?: SourceRef[];
 };
 
-// ========= Local “AI” answer (no backend required) =========
-function offlineAnalyze(question: string): string {
-  const q = question.toLowerCase();
-  if (q.includes('nội chiến') || q.includes('noi chien')) {
-    return (
-      'Nhận định: Giai đoạn 1954–1964 không phải “nội chiến” theo nghĩa hẹp. ' +
-      'Sau Genève 1954, Việt Nam là một quốc gia tạm thời chia cắt chờ tổng tuyển cử thống nhất. ' +
-      'Yếu tố can dự quốc tế (cố vấn/viện trợ Hoa Kỳ với khuôn khổ “chiến tranh đặc biệt”, rồi Vịnh Bắc Bộ 1964) ' +
-      'quyết định mức độ quốc tế hóa xung đột. Đường lối chính thức xác định mục tiêu độc lập–thống nhất ' +
-      'với miền Bắc làm hậu phương của cả nước và miền Nam quyết định trực tiếp. ' +
-      'Vì vậy, nên xem đây là xung đột chính trị–quân sự có thành tố nội bộ ở miền Nam, nhưng quốc tế hóa sâu.'
-    );
-  }
-  if (q.includes('genève') || q.includes('geneve') || q.includes('giơnevơ')) {
-    return (
-      'Hiệp định Genève (1954) đình chỉ chiến sự, quy định giới tuyến quân sự tạm thời và dự kiến tổng tuyển cử thống nhất. ' +
-      'VNCH/Mỹ không hiệp thương (1956) khiến tiến trình thống nhất bế tắc.'
-    );
-  }
-  if (q.includes('mặt trận') || q.includes('dân tộc giải phóng') || q.includes('1960')) {
-    return (
-      'Mặt trận Dân tộc Giải phóng miền Nam thành lập 12/1960; 1961 hình thành Quân Giải phóng. ' +
-      'Thành tố đấu tranh nội bộ kết hợp chi viện từ miền Bắc.'
-    );
-  }
-  if (q.includes('vịnh bắc bộ') || q.includes('1964')) {
-    return (
-      'Sự kiện Vịnh Bắc Bộ (8/1964) dẫn tới Nghị quyết cùng tên của Quốc hội Hoa Kỳ, mở đường cho leo thang can dự trực tiếp.'
-    );
-  }
-  return (
-    'Bạn có thể hỏi về: Genève 1954, hiệp thương 1956, Mặt trận 1960–1961, khủng hoảng 1963, Vịnh Bắc Bộ 1964, ' +
-    'hoặc hỏi: “Giai đoạn 1954–1964 có phải nội chiến?”'
-  );
-}
+
 
 const History: React.FC = () => {
+  const navigate = useNavigate();
   const [question, setQuestion] = useState('');
   const [response, setResponse] = useState('');
   const [loading, setLoading] = useState(false);
@@ -73,8 +41,18 @@ const History: React.FC = () => {
   const handleSubmit = async () => {
     if (!question.trim()) return;
     setLoading(true);
-    const ans = offlineAnalyze(question);
-    setResponse(ans);
+    try {
+      // Prompt hệ thống để AI trả lời đúng chủ đề lịch sử 1954–1964
+      const systemPrompt = `Bạn là trợ lý AI lịch sử Việt Nam giai đoạn 1954–1964. Chỉ trả lời dựa trên kiến thức lịch sử, không bịa đặt. Nếu không đủ dữ kiện, hãy trả lời "Tôi chưa có thông tin về vấn đề này."`;
+      const ans = await askGemini(question, systemPrompt);
+      setResponse(ans);
+    } catch (err: unknown) {
+      let msg = 'Không xác định';
+      if (err && typeof err === 'object' && 'message' in err && typeof (err as { message?: unknown }).message === 'string') {
+        msg = (err as { message: string }).message;
+      }
+      setResponse('❌ Lỗi AI: ' + msg);
+    }
     setLoading(false);
   };
 
@@ -117,6 +95,14 @@ const History: React.FC = () => {
 
   return (
     <motion.div ref={containerRef} initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className="relative min-h-screen overflow-hidden">
+      {/* Back Button */}
+      <button
+        onClick={() => navigate(-1)}
+        className="fixed top-6 left-6 z-20 bg-white/20 hover:bg-white/30 text-white font-semibold px-5 py-2 rounded-xl shadow-lg backdrop-blur border border-white/30 transition-all duration-200"
+        style={{ backdropFilter: 'blur(6px)' }}
+      >
+        ← Quay lại
+      </button>
       {/* Background */}
       <div className="fixed inset-0 -z-10">
         {/* Background image */}
@@ -147,7 +133,7 @@ const History: React.FC = () => {
       {/* Ask AI */}
       <motion.div className="relative z-10 max-w-2xl mx-auto px-4 mb-16" initial={{ y: 50, opacity: 0 }} animate={{ y: 0, opacity: 1 }} transition={{ delay: 0.35 }}>
         <motion.div className="backdrop-blur-lg bg-white/10 rounded-3xl p-8 border border-white/20 shadow-2xl" whileHover={{ scale: 1.02 }}>
-          <h2 className="text-2xl font-bold text-white mb-6 text-center"> Hỏi nhanh chatbot</h2>
+          <h2 className="text-2xl font-bold text-white mb-6 text-center"> Hỏi nhanh AI </h2>
           <div className="relative">
             <motion.input
               type="text"
