@@ -326,12 +326,12 @@ const History: React.FC = () => {
       </div>
 
       {/* Header */}
-      <motion.div style={{ y, opacity }} className="relative z-10 pt-20 pb-10 text-center text-white">
-        <motion.h1 className="text-5xl md:text-7xl font-black mb-6 bg-gradient-to-r from-blue-400 via-blue-500  bg-clip-text text-transparent" initial={{ scale: 0.9, opacity: 0 }} animate={{ scale: 1, opacity: 1 }} transition={{ type: 'spring', stiffness: 200, delay: 0.1 }}>
+      <motion.div style={{ y, opacity }} className="relative z-10 pt-28 pb-16 text-center text-white">
+        <motion.h1 className="text-5xl md:text-7xl font-black mb-6 bg-gradient-to-r from-blue-300 via-blue-400 to-purple-400 bg-clip-text text-transparent" initial={{ scale: 0.9, opacity: 0 }} animate={{ scale: 1, opacity: 1 }} transition={{ type: 'spring', stiffness: 200, delay: 0.1 }}>
           Dòng thời gian 1954–1964
         </motion.h1>
-        <motion.p className="text-xl md:text-2xl text-gray-200 max-w-3xl mx-auto px-4" initial={{ y: 30, opacity: 0 }} animate={{ y: 0, opacity: 1 }} transition={{ delay: 0.25 }}>
-          Các mốc chính trị–quân sự – nền cho mô-đun tranh luận “có phải nội chiến?”.
+        <motion.p className="text-lg md:text-xl text-gray-300 max-w-3xl mx-auto px-4" initial={{ y: 30, opacity: 0 }} animate={{ y: 0, opacity: 1 }} transition={{ delay: 0.25 }}>
+          Các mốc chính trị – quân sự, làm nền tảng cho cuộc tranh luận "có phải nội chiến?".
         </motion.p>
       </motion.div>
 
