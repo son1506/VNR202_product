@@ -7,7 +7,6 @@ import {
   Marker,
   Popup,
   LayerGroup,
-  CircleMarker,
 } from 'react-leaflet';
 import L from 'leaflet';
 import { useSearchParams } from 'react-router-dom';
@@ -81,22 +80,6 @@ const DMZ_BAND: [number, number][][] = [
   ],
 ];
 
-const HCM_TRAIL: [number, number][] = [
-  [19.145, 105.113], // Tân Kỳ
-  [18.344, 105.644], // Trường Sơn Nghệ An
-  [17.593, 106.287], // Phong Nha
-  [16.633, 106.605], // Lao Bảo - A Lưới (sát biên nhưng phía VN)
-  [16.230, 107.320], // A Lưới - Thừa Thiên Huế
-  [15.600, 107.500], // Tây Quảng Nam
-  [14.950, 107.650], // Kon Tum
-  [14.450, 107.635], // Gia Lai
-  [13.950, 107.550], // Bắc Đắk Lắk
-  [12.900, 107.650], // Nam Đắk Lắk
-  [12.178, 107.225], // Bù Gia Mập (Bình Phước)
-  [11.850, 106.600], // Lộc Ninh
-  [11.360, 106.142], // Tây Ninh
-];
-
 // Các toạ độ tiện dùng
 const COORDS = {
   HANOI: [21.0278, 105.8342] as [number, number],
@@ -108,51 +91,39 @@ const COORDS = {
   GENEVA: [46.2044, 6.1432] as [number, number],
 };
 
-
 const EVENTS: EventPt[] = [
-  // 1954 – Genève (ký tại Geneva, Thụy Sĩ)
   {
     id: 'geneva-1954',
-    title: 'Hiệp định Genève (1954)',
+    title: 'Hiệp định Genève',
     year: 1954,
-    summary:
-      'Đình chỉ chiến sự; giới tuyến quân sự tạm thời vĩ tuyến 17; dự kiến hiệp thương tổng tuyển cử 1956.',
+    summary: 'Đình chỉ chiến sự; giới tuyến quân sự tạm thời; dự kiến tổng tuyển cử thống nhất.',
     actors: ['North', 'South'],
     topic: 'diplomacy',
-    coords: [46.2044, 6.1432], // Geneva – CH (nếu muốn giữ trong VN: dùng COORDS.HANOI)
+    coords: COORDS.GENEVA,
     importance: 'high',
-    source: 'https://vi.wikipedia.org/wiki/Hiệp_định_Genève_1954',
   },
-
-  // 1955–1956 – Bế tắc hiệp thương / từ chối tổng tuyển cử (Sài Gòn)
   {
-    id: 'no-election-1956',
-    title: 'Bế tắc hiệp thương – Tổng tuyển cử (1955–1956)',
-    year: 1956,
-    summary:
-      'VNCH/Mỹ không hiệp thương tổng tuyển cử theo Genève → tiến trình thống nhất bế tắc.',
+    id: 'phase-1954-58',
+    title: 'Tái thiết MB, củng cố MN',
+    year: 1958, // Lấy năm cuối của giai đoạn
+    summary: 'Miền Bắc củng cố hậu phương; Miền Nam thực hiện chính sách “tố cộng diệt cộng” và ban hành Luật 10-59 để đàn áp phong trào.',
+    actors: ['North', 'South'],
+    topic: 'politics',
+    coords: COORDS.SAIGON, // Trung tâm chính quyền VNCH
+    importance: 'high',
+  },
+  {
+    id: 'election-1955-56',
+    title: 'Bế tắc hiệp thương – tổng tuyển cử',
+    year: 1956, // Lấy năm cuối của giai đoạn
+    summary: 'VNCH và Mỹ từ chối hiệp thương tổng tuyển cử (1956) → tiến trình thống nhất đất nước bị bế tắc.',
     actors: ['South', 'US'],
     topic: 'legal',
-    coords: [10.7769, 106.7009], // Trung tâm Sài Gòn
+    coords: COORDS.SAIGON,
     importance: 'high',
-    source: 'https://vi.wikipedia.org/wiki/Chiến_tranh_Việt_Nam',
   },
 
-  // 1957–1959 – Luật 10–59 và “tố cộng diệt cộng” (Sài Gòn)
-  {
-    id: 'law-10-59',
-    title: 'Luật 10–59 & “Tố cộng diệt cộng” (1957–1959)',
-    year: 1959,
-    summary:
-      'Lập toà án quân sự đặc biệt, mức án nặng; đàn áp mạnh phong trào cách mạng tại MN.',
-    actors: ['South'],
-    topic: 'legal',
-    coords: [10.7769, 106.7009], // Sài Gòn
-    importance: 'high',
-    source: 'https://vi.wikipedia.org/wiki/Lu%E1%BA%ADt_10-59',
-  },
-
-  // 1959 – Nghị quyết 15 (Hà Nội)
+    // 1959 – Nghị quyết 15 (Hà Nội)
   {
     id: 'resolution-15-1959',
     title: 'Nghị quyết 15 (1959)',
@@ -166,92 +137,59 @@ const EVENTS: EventPt[] = [
     source:
       'https://vi.wikipedia.org/wiki/Ngh%E1%BB%8B_quy%E1%BA%BFt_Trung_%C6%B0%C6%A1ng_15',
   },
-
-  // 1959–1960 – Đồng khởi (khởi đầu ở Mỏ Cày, Bến Tre)
+  
   {
-    id: 'dong-khoi-1959-60',
-    title: 'Phong trào Đồng khởi (1959–1960)',
-    year: 1960,
-    summary:
-      'Bùng nổ từ Bến Tre lan rộng ĐBSCL; làm tan rã nhiều mảng chính quyền cơ sở ở nông thôn.',
-    actors: ['NLF'],
+    id: 'shift-1959-60',
+    title: 'Chuyển pha đấu tranh ở miền Nam',
+    year: 1960, // Lấy năm Đồng khởi lan rộng
+    summary: 'Triển khai Nghị quyết 15 (1959) → cơ sở cho Đồng khởi lan rộng tại miền Nam, khởi đầu từ Bến Tre.',
+    actors: ['North', 'NLF'],
     topic: 'politics',
-    coords: [10.1060, 106.3750], // Mỏ Cày, Bến Tre
+    coords: COORDS.BEN_TRE, // Nơi khởi phát Đồng khởi
     importance: 'high',
-    source: 'https://vi.wikipedia.org/wiki/Phong_trào_Đồng_Khởi',
   },
-
-  // 1960–1961 – Mặt trận & Quân Giải phóng (Tân Lập, Tây Ninh)
   {
     id: 'nlf-1960-61',
-    title: 'MTDTGPMN (12/1960) & QGP MN (2/1961)',
-    year: 1961,
-    summary:
-      'Liên minh chính trị rộng rãi tại MN; hình thành lực lượng vũ trang thống nhất tại chỗ.',
+    title: 'MTDTGPMN & Quân Giải phóng',
+    year: 1961, // Lấy năm hình thành QGP
+    summary: 'Tháng 12/1960 thành lập Mặt trận; tháng 2/1961 hình thành Quân Giải phóng MN, thống nhất lực lượng vũ trang.',
     actors: ['NLF'],
     topic: 'politics',
-    coords: [11.3591, 106.1417], // Khu vực Tân Lập, Tây Ninh
+    coords: COORDS.TAY_NINH, // Căn cứ địa
     importance: 'high',
-    source:
-      'https://vi.wikipedia.org/wiki/Mặt_trận_Dân_tộc_Giải_phóng_miền_Nam_Việt_Nam',
   },
-
-  // 1961–1964 – Chiến tranh đặc biệt (trọng tâm MN; đặt tại Tây Ninh)
   {
-    id: 'special-war-1961-64',
-    title: '“Chiến tranh đặc biệt” (1961–1964)',
-    year: 1962,
-    summary:
-      'Kế hoạch Staley–Taylor: cố vấn/viện trợ Mỹ; quân VNCH tác chiến; bình định & ấp chiến lược.',
-    actors: ['US', 'South'],
+    id: 'specialwar-1961-64',
+    title: '“Chiến tranh đặc biệt”',
+    year: 1964, // Lấy năm cuối của giai đoạn
+    summary: 'Mỹ và VNCH thực hiện chiến lược "Chiến tranh đặc biệt", sử dụng cố vấn, viện trợ và quân đội VNCH, kết hợp với chiến thuật ấp chiến lược.',
+    actors: ['US', 'South', 'NLF'],
     topic: 'military',
-    coords: [11.2955, 106.1043], // Tây Ninh (cụm căn cứ/hoạt động lớn)
+    coords: COORDS.SAIGON, // Trung tâm đầu não chỉ huy
     importance: 'high',
-    source: 'https://vi.wikipedia.org/wiki/Chiến_tranh_Việt_Nam',
   },
-
-  // 1963 – Ấp Bắc (xã Tân Phú, Cai Lậy, Tiền Giang)
   {
-    id: 'ap-bac-1963',
-    title: 'Trận Ấp Bắc (01/1963)',
+    id: 'crisis-1963',
+    title: 'Khủng hoảng 1963 & đảo chính',
     year: 1963,
-    summary:
-      'Trận đánh tiêu biểu: QGP MN đánh bại lực lượng VNCH có trực thăng/thiết xa & cố vấn Mỹ.',
-    actors: ['NLF', 'South', 'US'],
-    topic: 'military',
-    coords: [10.3581, 106.1200], // Ấp Bắc – Cai Lậy, Tiền Giang
-    importance: 'medium',
-    source: 'https://vi.wikipedia.org/wiki/Trận_Ấp_Bắc',
-  },
-
-  // 1963 – Khủng hoảng Phật giáo & đảo chính (Sài Gòn)
-  {
-    id: 'buddhist-crisis-1963',
-    title: 'Khủng hoảng Phật giáo & đảo chính (1963)',
-    year: 1963,
-    summary:
-      'Khủng hoảng chính trị–tôn giáo trầm trọng; 11/1963 lật đổ chính quyền Ngô Đình Diệm.',
-    actors: ['South'],
+    summary: 'Biến cố Phật giáo leo thang thành khủng hoảng chính trị, dẫn đến cuộc đảo chính lật đổ Ngô Đình Diệm vào tháng 11/1963.',
+    actors: ['South', 'US'],
     topic: 'politics',
-    coords: [10.7769, 106.7009], // Sài Gòn
+    coords: COORDS.SAIGON,
     importance: 'high',
-    source: 'https://vi.wikipedia.org/wiki/Cuộc_khủng_hoảng_Phật_giáo_1963',
   },
-
-  // 1964 – Vịnh Bắc Bộ (vùng biển gần Hòn Mê)
   {
     id: 'tonkin-1964',
-    title: 'Sự kiện Vịnh Bắc Bộ (08/1964)',
+    title: 'Sự kiện Vịnh Bắc Bộ',
     year: 1964,
-    summary:
-      'Quốc hội Mỹ thông qua Nghị quyết Vịnh Bắc Bộ → mở đường mở rộng can dự trực tiếp.',
-    actors: ['US'],
+    summary: 'Nghị quyết Vịnh Bắc Bộ được Quốc hội Mỹ thông qua, mở đường cho việc can dự quân sự trực tiếp và sâu rộng hơn của Hoa Kỳ.',
+    actors: ['US', 'North'],
     topic: 'diplomacy',
-    coords: [19.7000, 106.8000], // Gần Hòn Mê – Thanh Hóa
+    coords: COORDS.TONKIN_GULF,
     importance: 'high',
-    source: 'https://vi.wikipedia.org/wiki/Sự_kiện_Vịnh_Bắc_Bộ',
   },
 ];
+
 
 // ====== Helpers ======
 const ACTOR_CONFIG: Record<ActorKey, { label: string; color: string; symbol: string }> = {
@@ -283,7 +221,6 @@ const MapPage: React.FC = () => {
   const defaults = useQueryDefaults();
   const [year, setYear] = useState<number>(defaults.year);
   const [showDMZ, setShowDMZ] = useState(true);
-  const [showTrail, setShowTrail] = useState(true);
   const [actors, setActors] = useState<Set<ActorKey>>(defaults.actors);
   const [selectedTopic, setSelectedTopic] = useState<string>('all');
   const [showPanel, setShowPanel] = useState(true);
@@ -365,15 +302,6 @@ const MapPage: React.FC = () => {
                 className="w-4 h-4"
               />
               <span className="text-sm">🚧 DMZ / Vĩ tuyến 17°</span>
-            </label>
-            <label className="flex items-center gap-2 cursor-pointer">
-              <input
-                type="checkbox"
-                checked={showTrail}
-                onChange={() => setShowTrail(v => !v)}
-                className="w-4 h-4"
-              />
-              <span className="text-sm">🛤️ Đường mòn HCM</span>
             </label>
           </div>
         </div>
@@ -464,19 +392,6 @@ const MapPage: React.FC = () => {
             />
           </LayerGroup>
         )}
-
-      {/* Ho Chi Minh Trail */}
-      {/* {showTrail && (
-          <Polyline
-            positions={HCM_TRAIL}
-            pathOptions={{
-              color: '#10b981',
-              weight: 5,
-              opacity: 0.7,
-              dashArray: '15 10'
-            }}
-          />
-        )} */}
 
         {/* Events as Custom Markers */}
         {filteredEvents.map((event) => {
