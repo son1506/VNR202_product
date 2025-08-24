@@ -95,86 +95,149 @@ const HCM_TRAIL: [number, number][] = [
   [10.8, 107.8],
 ];
 
+// Các toạ độ tiện dùng
+const COORDS = {
+  HANOI: [21.0278, 105.8342] as [number, number],
+  SAIGON: [10.8231, 106.6297] as [number, number],
+  BEN_TRE: [10.2435, 106.3757] as [number, number],
+  AP_BAC: [10.3582, 106.3956] as [number, number],    // xã Tân Phú, Mỹ Tho (Tiền Giang)
+  HUE: [16.4637, 107.5909] as [number, number],
+  TONKIN_GULF: [19.5, 107.3] as [number, number],
+};
+
+
 const EVENTS: EventPt[] = [
+  // 1954 – Genève
   {
-    id: 'geneva-context-1954',
-    title: 'Hiệp định Genève 1954',
+    id: 'geneva-1954',
+    title: 'Hiệp định Genève (1954)',
     year: 1954,
-    summary: 'Đình chỉ chiến sự; giới tuyến quân sự tạm thời tại vĩ tuyến 17°; dự kiến tổng tuyển cử thống nhất năm 1956.',
-    actors: ['North'],
+    summary: 'Đình chỉ chiến sự; giới tuyến quân sự tạm thời vĩ tuyến 17; dự kiến hiệp thương tổng tuyển cử 1956.',
+    actors: ['North', 'South'],
     topic: 'diplomacy',
-    coords: [21.0278, 105.8342],
+    coords: COORDS.HANOI,
     importance: 'high',
     source: 'https://vi.wikipedia.org/wiki/Hiệp_định_Genève_1954',
   },
+
+  // 1955–1956 – Bế tắc hiệp thương / từ chối tổng tuyển cử
   {
     id: 'no-election-1956',
-    title: 'Từ chối tổng tuyển cử (1956)',
+    title: 'Bế tắc hiệp thương – Tổng tuyển cử (1955–1956)',
     year: 1956,
-    summary: 'VNCH và Mỹ từ chối hiệp thương tổng tuyển cử → tiến trình thống nhất bế tắc.',
+    summary: 'VNCH/Mỹ không hiệp thương tổng tuyển cử theo Genève → tiến trình thống nhất bế tắc.',
     actors: ['South', 'US'],
     topic: 'legal',
-    coords: [10.8231, 106.6297],
+    coords: COORDS.SAIGON,
     importance: 'high',
     source: 'https://vi.wikipedia.org/wiki/Chiến_tranh_Việt_Nam',
   },
+
+  // 1957–1959 – Luật 10–59 và chiến dịch “tố cộng diệt cộng”
   {
-    id: 'nlf-1960',
-    title: 'Thành lập MTDTGP MN (1960)',
+    id: 'law-10-59',
+    title: 'Luật 10–59 & “Tố cộng diệt cộng” (1957–1959)',
+    year: 1959,
+    summary: 'Lập toà án quân sự đặc biệt, mức án nặng; đàn áp mạnh phong trào cách mạng tại MN.',
+    actors: ['South'],
+    topic: 'legal',
+    coords: COORDS.SAIGON,
+    importance: 'high',
+    source: 'https://vi.wikipedia.org/wiki/Lu%E1%BA%ADt_10-59',
+  },
+
+  // 1959 – Nghị quyết 15
+  {
+    id: 'resolution-15-1959',
+    title: 'Nghị quyết 15 (1959)',
+    year: 1959,
+    summary: 'Xác lập hai nhiệm vụ chiến lược: CNXH ở MB; CM dân tộc–dân chủ ở MN; mở đường cho phong trào Đồng khởi.',
+    actors: ['North'],
+    topic: 'politics',
+    coords: COORDS.HANOI,
+    importance: 'high',
+    source: 'https://vi.wikipedia.org/wiki/Ngh%E1%BB%8B_quy%E1%BA%BFt_Trung_%C6%B0%C6%A1ng_15',
+  },
+
+  // 1959–1960 – Đồng khởi
+  {
+    id: 'dong-khoi-1959-60',
+    title: 'Phong trào Đồng khởi (1959–1960)',
     year: 1960,
-    summary: 'Mặt trận Dân tộc Giải phóng miền Nam ra đời (12/1960); 1961 hình thành Quân Giải phóng.',
+    summary: 'Bùng nổ từ Bến Tre lan rộng ĐBSCL; làm tan rã nhiều mảng chính quyền cơ sở ở nông thôn.',
+    actors: ['NLF'],
+    topic: 'politics',
+    coords: COORDS.BEN_TRE,
+    importance: 'high',
+    source: 'https://vi.wikipedia.org/wiki/Phong_trào_Đồng_Khởi',
+  },
+
+  // 1960–1961 – Mặt trận & Quân Giải phóng
+  {
+    id: 'nlf-1960-61',
+    title: 'MTDTGPMN (12/1960) & QGP MN (2/1961)',
+    year: 1961,
+    summary: 'Liên minh chính trị rộng rãi tại MN; hình thành lực lượng vũ trang thống nhất tại chỗ.',
     actors: ['NLF'],
     topic: 'politics',
     coords: [11.32, 106.10],
     importance: 'high',
     source: 'https://vi.wikipedia.org/wiki/Mặt_trận_Dân_tộc_Giải_phóng_miền_Nam_Việt_Nam',
   },
+
+  // 1961–1964 – Chiến tranh đặc biệt
   {
-    id: 'special-war-1961',
-    title: 'Chiến tranh đặc biệt (1961-1964)',
+    id: 'special-war-1961-64',
+    title: '“Chiến tranh đặc biệt” (1961–1964)',
     year: 1962,
-    summary: 'Khung tác chiến: cố vấn/viện trợ Mỹ + quân VNCH; bình định, ấp chiến lược tại MN.',
+    summary: 'Kế hoạch Staley–Taylor: cố vấn/viện trợ Mỹ; quân VNCH tác chiến; bình định & ấp chiến lược.',
     actors: ['US', 'South'],
     topic: 'military',
     coords: [12.5, 107.5],
-    importance: 'medium',
+    importance: 'high',
     source: 'https://vi.wikipedia.org/wiki/Chiến_tranh_Việt_Nam',
   },
+
+  // 1963 – Ấp Bắc
   {
-    id: 'buddhist-1963',
-    title: 'Khủng hoảng Phật giáo (1963)',
+    id: 'ap-bac-1963',
+    title: 'Trận Ấp Bắc (01/1963)',
     year: 1963,
-    summary: 'Khủng hoảng chính trị-xã hội trầm trọng ở miền Nam, dẫn tới đảo chính 11/1963.',
+    summary: 'Trận đánh tiêu biểu: QGP MN đánh bại lực lượng VNCH có trực thăng/thiết xa & cố vấn Mỹ.',
+    actors: ['NLF', 'South', 'US'],
+    topic: 'military',
+    coords: COORDS.AP_BAC,
+    importance: 'medium',
+    source: 'https://vi.wikipedia.org/wiki/Trận_Ấp_Bắc',
+  },
+
+  // 1963 – Khủng hoảng & đảo chính
+  {
+    id: 'buddhist-crisis-1963',
+    title: 'Khủng hoảng Phật giáo & đảo chính (1963)',
+    year: 1963,
+    summary: 'Khủng hoảng chính trị–tôn giáo trầm trọng; 11/1963 lật đổ chính quyền Ngô Đình Diệm.',
     actors: ['South'],
     topic: 'politics',
-    coords: [16.4637, 107.5909],
+    coords: COORDS.SAIGON,
     importance: 'high',
     source: 'https://vi.wikipedia.org/wiki/Cuộc_khủng_hoảng_Phật_giáo_1963',
   },
+
+  // 1964 – Vịnh Bắc Bộ
   {
     id: 'tonkin-1964',
-    title: 'Sự kiện Vịnh Bắc Bộ (1964)',
+    title: 'Sự kiện Vịnh Bắc Bộ (08/1964)',
     year: 1964,
-    summary: 'Nghị quyết Vịnh Bắc Bộ của QH Hoa Kỳ mở đường cho mở rộng can dự quân sự trực tiếp.',
+    summary: 'Quốc hội Mỹ thông qua Nghị quyết Vịnh Bắc Bộ → mở đường mở rộng can dự trực tiếp.',
     actors: ['US'],
     topic: 'diplomacy',
-    coords: [19.5, 107.3],
+    coords: COORDS.TONKIN_GULF,
     importance: 'high',
     source: 'https://vi.wikipedia.org/wiki/Sự_kiện_Vịnh_Bắc_Bộ',
   },
-  // Thêm các sự kiện khác
-  {
-    id: 'dong-khoi-1960',
-    title: 'Phong trào Đồng Khởi (1960)',
-    year: 1960,
-    summary: 'Phong trào nổi dậy lớn ở Bến Tre và các tỉnh ĐBSCL, đánh dấu chuyển pha đấu tranh.',
-    actors: ['NLF'],
-    topic: 'politics',
-    coords: [10.2435, 106.3757],
-    importance: 'medium',
-    source: 'https://vi.wikipedia.org/wiki/Phong_trào_Đồng_Khởi',
-  },
 ];
+
 
 // ====== Helpers ======
 const ACTOR_CONFIG: Record<ActorKey, { label: string; color: string; symbol: string }> = {

@@ -8,10 +8,39 @@ import { useLocation, useNavigate } from 'react-router-dom'; // NEW: đọc hash
 type SourceRef = { label: string; url: string };
 type Actor = { id: string; name: string; role: string; summary: string; highlights: string[] };
 type EventItem = {
-  id: string; year: number; title: string; description: string; color: string; sources?: SourceRef[];
+  id: string;
+  year?: number;
+  startYear?: number;
+  endYear?: number;
+  title: string;
+  description: string;
+  details?: React.ReactNode | string;
+  color: string;
 };
 
-
+const formatEventYear = (e: EventItem) => {
+  const s = e.startYear, t = e.endYear;
+  if (s && t) return (
+    <span className="flex items-center gap-1">
+      <span>{s}</span>
+      <span className="text-white/70 font-normal">–</span>
+      <span>{t}</span>
+    </span>
+  );
+  if (s && !t) return (
+    <span className="flex items-center gap-1">
+      <span>{s}</span>
+      <span className="text-white/70 font-normal">–</span>
+    </span>
+  );
+  if (!s && t) return (
+    <span className="flex items-center gap-1">
+      <span className="text-white/70 font-normal">–</span>
+      <span>{t}</span>
+    </span>
+  );
+  return <span>{e.year ?? ''}</span>;
+};
 
 const History: React.FC = () => {
   const navigate = useNavigate();
@@ -67,17 +96,134 @@ const History: React.FC = () => {
     []
   );
 
+  // ========= Timeline Events  =========
   const timelineEvents: EventItem[] = useMemo(
     () => [
-      { id: 'geneva-1954', year: 1954, title: 'Hiệp định Genève', description: 'Đình chỉ chiến sự; giới tuyến quân sự tạm thời; dự kiến tổng tuyển cử thống nhất.', color: 'from-blue-500 ', sources: [sources[3]] },
-      { id: 'election-1956', year: 1956, title: 'Bế tắc hiệp thương – tổng tuyển cử', description: 'VNCH/Mỹ không hiệp thương tổng tuyển cử (1956) → bế tắc thống nhất.', color: 'from-blue-500', sources: [sources[3]] },
-      { id: 'shift-1959', year: 1959, title: 'Chuyển pha đấu tranh ở miền Nam', description: 'Chuẩn bị tổ chức lực lượng chính trị–quân sự ở MN.', color: 'from-blue-500', sources: [sources[2]] },
-      { id: 'nlf-1960', year: 1960, title: 'Thành lập Mặt trận DTGP MN', description: '12/1960 thành lập; 1961 hình thành Quân Giải phóng MN.', color: 'from-blue-500', sources: [sources[3]] },
-      { id: 'specialwar-1961-64', year: 1961, title: '“Chiến tranh đặc biệt”', description: 'Khung tác chiến: cố vấn–viện trợ Mỹ, quân VNCH; ấp chiến lược.', color: 'from-blue-500', sources: [sources[3]] },
-      { id: 'crisis-1963', year: 1963, title: 'Khủng hoảng 1963 & đảo chính', description: 'Biến cố Phật giáo; lật đổ Ngô Đình Diệm.', color: 'from-blue-500', sources: [sources[3]] },
-      { id: 'tonkin-1964', year: 1964, title: 'Sự kiện Vịnh Bắc Bộ', description: '8/1964: Nghị quyết Vịnh Bắc Bộ → mở đường cho can dự trực tiếp của Hoa Kỳ.', color: 'from-blue-500', sources: [sources[3]] },
-    ],
-    [sources]
+    {
+      id: 'geneva-1954',
+      year: 1954,
+      title: 'Hiệp định Genève',
+      description: 'Đình chỉ chiến sự; giới tuyến quân sự tạm thời; dự kiến tổng tuyển cử thống nhất.',
+      details: (
+        <ul className="list-disc pl-5 space-y-1">
+          <li>Thiết lập giới tuyến quân sự tạm thời ở vĩ tuyến 17; lực lượng hai bên tập kết.</li>
+          <li>Dự kiến hiệp thương tổng tuyển cử trong năm 1956 để thống nhất đất nước.</li>
+          <li>Quốc tế công nhận tính tạm thời của ranh giới; không phải chia cắt vĩnh viễn.</li>
+        </ul>
+      ),
+      color: 'from-blue-500 ',
+    },
+
+    {
+      id: 'phase-1954-58',
+      startYear: 1954,
+      endYear: 1958,
+      title: 'Tái thiết MB, củng cố MN',
+      description: 'MB: củng cố hậu phương; MN: “tố cộng diệt cộng”, Luật 10-59 (1957–1959) đàn áp phong trào.',
+      details: (
+        <ul className="list-disc pl-5 space-y-1">
+          <li>Trung ương 6 (7/1954), Bộ Chính trị 9/1954, TƯ 7 & 8 (1955): ưu tiên củng cố miền Bắc, đấu tranh thống nhất.</li>
+          <li>Miền Nam: chính quyền Ngô Đình Diệm bình định, chiến dịch “tố cộng diệt cộng”.</li>
+          <li>Luật 10–59 lập toà án quân sự đặc biệt, mức án nặng; ảnh hưởng lớn đến phong trào cách mạng ở MN.</li>
+        </ul>
+      ),
+      color: 'from-blue-500',
+    },
+
+    {
+      id: 'election-1955-56',
+      startYear: 1955,
+      endYear: 1956,
+      title: 'Bế tắc hiệp thương – tổng tuyển cử',
+      description: 'VNCH/Mỹ không hiệp thương tổng tuyển cử (1956) → bế tắc thống nhất.',
+      details: (
+        <ul className="list-disc pl-5 space-y-1">
+          <li>Hai miền không đạt đồng thuận về tổ chức tổng tuyển cử theo tinh thần Genève.</li>
+          <li>Bế tắc chính trị tạo nền cho chuyển pha đấu tranh tại MN giai đoạn sau.</li>
+        </ul>
+      ),
+      color: 'from-blue-500',
+    },
+
+    {
+      id: 'shift-1959-60',
+      startYear: 1959,
+      endYear: 1960,
+      title: 'Chuyển pha đấu tranh ở miền Nam',
+      description: 'Triển khai Nghị quyết 15 (1959) → cơ sở cho Đồng khởi lan rộng 1959–1960.',
+      details: (
+        <ul className="list-disc pl-5 space-y-1">
+          <li>NQ 15 xác lập hai nhiệm vụ chiến lược: CNXH ở MB; CM dân tộc–dân chủ ở MN.</li>
+          <li>Con đường cơ bản ở MN: khởi nghĩa giành chính quyền khi có điều kiện.</li>
+          <li>Đồng khởi bùng nổ từ Bến Tre lan rộng, làm tan rã một mảng chính quyền cơ sở VNCH ở nông thôn.</li>
+        </ul>
+      ),
+      color: 'from-blue-500',
+    },
+
+    {
+      id: 'nlf-1960-61',
+      startYear: 1960,
+      endYear: 1961,
+      title: 'MTDTGPMN & Quân Giải phóng',
+      description: '12/1960 thành lập Mặt trận; 2/1961 hình thành Quân Giải phóng MN.',
+      details: (
+        <ul className="list-disc pl-5 space-y-1">
+          <li>Mặt trận là liên minh chính trị rộng rãi của các lực lượng ở MN.</li>
+          <li>QGP MN ra đời 2/1961, thống nhất lực lượng vũ trang cách mạng tại chỗ.</li>
+          <li>Tạo thế đối trọng chính trị – quân sự với bộ máy VNCH ở nông thôn.</li>
+        </ul>
+      ),
+      color: 'from-blue-500',
+    },
+
+    {
+      id: 'specialwar-1961-64',
+      startYear: 1961,
+      endYear: 1964,
+      title: '“Chiến tranh đặc biệt”',
+      description: 'Cố vấn–viện trợ Mỹ, quân VNCH tác chiến; ấp chiến lược, trực thăng vận.',
+      details: (
+        <ul className="list-disc pl-5 space-y-1">
+          <li>Kế hoạch Staley–Taylor: Mỹ cung cấp cố vấn, vũ khí, hậu cần; VNCH tác chiến chủ lực.</li>
+          <li>“Ấp chiến lược” nhằm cô lập lực lượng cách mạng ở nông thôn.</li>
+          <li>Thích ứng chiến thuật của phía cách mạng: điển hình trận Ấp Bắc (1/1963).</li>
+          <li>Khủng hoảng chính trị dẫn đến đảo chính 11/1963, làm suy yếu VNCH.</li>
+        </ul>
+      ),
+      color: 'from-blue-500',
+    },
+
+    {
+      id: 'crisis-1963',
+      year: 1963,
+      title: 'Khủng hoảng 1963 & đảo chính',
+      description: 'Biến cố Phật giáo; lật đổ Ngô Đình Diệm (11/1963).',
+      details: (
+        <ul className="list-disc pl-5 space-y-1">
+          <li>Khủng hoảng Phật giáo bùng nổ sau các sự kiện đàn áp.</li>
+          <li>Đảo chính 11/1963: chế độ Ngô Đình Diệm sụp đổ, tình trạng bất ổn kéo dài.</li>
+        </ul>
+      ),
+      color: 'from-blue-500',
+    },
+
+    {
+      id: 'tonkin-1964',
+      year: 1964,
+      title: 'Sự kiện Vịnh Bắc Bộ',
+      description: '8/1964: Nghị quyết Vịnh Bắc Bộ → mở đường cho can dự trực tiếp của Hoa Kỳ.',
+      details: (
+        <ul className="list-disc pl-5 space-y-1">
+          <li>Quốc hội Mỹ trao quyền rộng cho hành pháp (Gulf of Tonkin Resolution).</li>
+          <li>Sau đó Mỹ oanh kích miền Bắc (Pierce Arrow) và chuẩn bị đưa quân (sang 1965).</li>
+          <li>“Chiến tranh đặc biệt” bộc lộ thất bại; chuyển sang “chiến tranh cục bộ”.</li>
+        </ul>
+      ),
+      color: 'from-blue-500',
+    },
+  ],
+  []
   );
 
   const actors: Actor[] = useMemo(
@@ -249,19 +395,6 @@ const History: React.FC = () => {
           </div>
         </div>
       </motion.div>
-
-      {/* Sources */}
-      <motion.div className="relative z-10 max-w-6xl mx-auto px-4 pb-24" variants={containerVariants} initial="hidden" whileInView="visible" viewport={{ once: true }}>
-        <motion.h2 className="text-3xl font-bold text-white text-center mb-6" variants={itemVariants}> Nguồn tham khảo (Version 1)</motion.h2>
-        <div className="backdrop-blur-lg bg-white/10 rounded-3xl p-6 border border-white/20 text-white">
-          <ul className="list-disc list-inside space-y-2 text-white/90">
-            {sources.map((s) => (
-              <li key={s.url}><a href={s.url} className="underline decoration-dotted hover:opacity-90" target="_blank" rel="noreferrer">{s.label}</a></li>
-            ))}
-          </ul>
-          <p className="text-xs text-white/70 mt-4">Gợi ý nâng cấp: bổ sung tài liệu ngoại giao gốc, báo cáo học thuật, niên giám quân sự để tăng độ tin cậy.</p>
-        </div>
-      </motion.div>
     </motion.div>
   );
 };
@@ -273,6 +406,9 @@ const TimelineEvent: React.FC<{
   const ref = useRef<HTMLDivElement | null>(null);
   const isInView = useInView(ref, { once: true, margin: '-100px' });
   const isLeft = index % 2 === 0;
+
+  const [expanded, setExpanded] = useState(false);
+  const toggle = () => setExpanded((v) => !v);
 
   return (
     <motion.div
@@ -288,22 +424,37 @@ const TimelineEvent: React.FC<{
         <div className={`backdrop-blur-lg bg-gradient-to-br ${event.color} p-6 rounded-3xl shadow-2xl border border-white/20 relative overflow-hidden`}>
           <motion.div className="absolute inset-0 bg-gradient-to-br from-white/20 to-transparent rounded-3xl opacity-0" animate={{ opacity: isActive ? 1 : 0 }} transition={{ duration: 0.25 }} />
           <div className="relative z-10">
-            <div className="flex items-center gap-3 mb-2">
-              {/* <span className="text-2xl">{event.icon}</span> */}
-              <h3 className="text-2xl font-bold text-white">{event.year}</h3>
-            </div>
-            <h4 className="text-lg font-semibold text-white mb-1">{event.title}</h4>
-            <p className="text-white/95 text-sm leading-relaxed">{event.description}</p>
-            {event.sources && event.sources.length > 0 && (
-              <div className="mt-3 flex flex-wrap gap-2">
-                {event.sources.map((s) => (
-                  <a key={s.url} href={s.url} target="_blank" rel="noreferrer" className="text-xs px-2 py-1 rounded-full bg-white/20 border border-white/30 hover:bg-white/30">Nguồn</a>
-                ))}
+            {/* Header clickable */}
+            <button
+              onClick={toggle}
+              aria-expanded={expanded}
+              aria-controls={`${event.id}-details`}
+              className="w-full text-left focus:outline-none focus:ring-2 focus:ring-white/60 rounded-xl"
+            >
+              <div className="flex items-center gap-3 mb-2">
+                <h3 className="text-2xl font-bold text-white whitespace-nowrap tabular-nums tracking-tight leading-none">
+                  {formatEventYear(event)}
+                </h3>
+              </div>
+              <h4 className="text-lg font-semibold text-white mb-1">{event.title}</h4>
+              <p className="text-white/95 text-sm leading-relaxed">{event.description}</p>
+            </button>
+
+            {/* Collapsible details */}
+            {event.details && (
+              <div
+                id={`${event.id}-details`}
+                className={`overflow-hidden transition-all duration-300 ${expanded ? 'max-h-[1000px] opacity-100 mt-3' : 'max-h-0 opacity-0'}`}
+              >
+                <div className="pt-2 border-t border-white/10 text-white/90 text-sm">
+                  {typeof event.details === 'string' ? <p>{event.details}</p> : event.details}
+                </div>
               </div>
             )}
           </div>
         </div>
       </motion.div>
+
       <motion.div
         className="absolute left-1/2 -translate-x-1/2 w-6 h-6 bg-white rounded-full border-4 border-purple-500 shadow-lg z-20"
         animate={{ scale: isActive ? 1.4 : 1, boxShadow: isActive ? '0 0 22px rgba(147, 51, 234, 0.8)' : '0 0 0px rgba(147, 51, 234, 0)' }}
@@ -312,5 +463,6 @@ const TimelineEvent: React.FC<{
     </motion.div>
   );
 };
+
 
 export default History;
