@@ -465,8 +465,8 @@ const MapPage: React.FC = () => {
           </LayerGroup>
         )}
 
-        {/* Ho Chi Minh Trail */}
-        {showTrail && (
+      {/* Ho Chi Minh Trail */}
+      {/* {showTrail && (
           <Polyline
             positions={HCM_TRAIL}
             pathOptions={{
@@ -476,7 +476,7 @@ const MapPage: React.FC = () => {
               dashArray: '15 10'
             }}
           />
-        )}
+        )} */}
 
         {/* Events as Custom Markers */}
         {filteredEvents.map((event) => {
