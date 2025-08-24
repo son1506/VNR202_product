@@ -82,16 +82,19 @@ const DMZ_BAND: [number, number][][] = [
 ];
 
 const HCM_TRAIL: [number, number][] = [
-  [19.3, 105.5],   // Tân Kỳ, Nghệ An (cột mốc đường mòn)
-  [17.6, 106.3],   // Phong Nha - Quảng Bình
-  [16.8, 106.9],   // Tây Quảng Trị - đường 9 Nam Lào
-  [16.0, 107.2],   // A Lưới - Thừa Thiên Huế
-  [15.6, 107.6],   // Tây Quảng Nam
-  [14.6, 107.8],   // Kon Tum
-  [13.5, 107.6],   // Gia Lai
-  [12.0, 107.5],   // Đắk Lắk
-  [11.3, 106.9],   // Bình Phước
-  [11.1, 106.6],   // Tây Ninh (vào miền Nam)
+  [19.145, 105.113], // Tân Kỳ
+  [18.344, 105.644], // Trường Sơn Nghệ An
+  [17.593, 106.287], // Phong Nha
+  [16.633, 106.605], // Lao Bảo - A Lưới (sát biên nhưng phía VN)
+  [16.230, 107.320], // A Lưới - Thừa Thiên Huế
+  [15.600, 107.500], // Tây Quảng Nam
+  [14.950, 107.650], // Kon Tum
+  [14.450, 107.635], // Gia Lai
+  [13.950, 107.550], // Bắc Đắk Lắk
+  [12.900, 107.650], // Nam Đắk Lắk
+  [12.178, 107.225], // Bù Gia Mập (Bình Phước)
+  [11.850, 106.600], // Lộc Ninh
+  [11.360, 106.142], // Tây Ninh
 ];
 
 // Các toạ độ tiện dùng
