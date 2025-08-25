@@ -51,6 +51,44 @@ const createCustomIcon = (color: string, symbol: string) => {
   });
 };
 
+// KHU VỰC CÁC QUẦN ĐẢO CỦA VIỆT NAM
+const HOANG_SA_AREA: [number, number][][] = [
+  [
+    [17.5, 111.0],  // Top-Left
+    [17.5, 113.5],  // Top-Right
+    [15.5, 113.5],  // Bottom-Right
+    [15.5, 111.0],  // Bottom-Left
+  ],
+];
+
+const TRUONG_SA_AREA: [number, number][][] = [
+  [
+    [12.5, 111.0], // Top-Left
+    [12.5, 116.5], // Top-Right
+    [6.0, 116.5],  // Bottom-Right
+    [6.0, 111.0],  // Bottom-Left
+  ],
+];
+
+// ===== TÂM VÙNG (đặt ngôi sao) =====
+const HOANG_SA_CENTER: [number, number] = [16.5, 112.25];
+const TRUONG_SA_CENTER: [number, number] = [9.25, 113.8];
+
+// ===== ICON SAO VÀNG (SVG) =====
+const STAR_ICON = L.divIcon({
+  className: "vn-flag-star",
+  html: `
+    <svg width="36" height="36" viewBox="0 0 100 100" aria-label="Vietnam star">
+      <polygon
+        points="50,5 61,36 94,38 67,58 76,90 50,72 24,90 33,58 6,38 39,36"
+        fill="#facc15"
+      />
+    </svg>
+  `,
+  iconSize: [36, 36],
+  iconAnchor: [18, 18],
+});
+
 // ====== Types ======
 type ActorKey = 'North' | 'South' | 'NLF' | 'US';
 type EventPt = {
@@ -123,7 +161,7 @@ const EVENTS: EventPt[] = [
     importance: 'high',
   },
 
-    // 1959 – Nghị quyết 15 (Hà Nội)
+  // 1959 – Nghị quyết 15 (Hà Nội)
   {
     id: 'resolution-15-1959',
     title: 'Nghị quyết 15 (1959)',
@@ -137,7 +175,7 @@ const EVENTS: EventPt[] = [
     source:
       'https://vi.wikipedia.org/wiki/Ngh%E1%BB%8B_quy%E1%BA%BFt_Trung_%C6%B0%C6%A1ng_15',
   },
-  
+
   {
     id: 'shift-1959-60',
     title: 'Chuyển pha đấu tranh ở miền Nam',
@@ -392,6 +430,47 @@ const MapPage: React.FC = () => {
             />
           </LayerGroup>
         )}
+
+        {/* Lãnh thổ Việt Nam */}
+        <LayerGroup>
+          {/* Quần đảo Hoàng Sa */}
+          <Polygon
+            positions={HOANG_SA_AREA}
+            pathOptions={{
+              color: '#dc2626',      // viền đỏ
+              weight: 2,
+              fillColor: '#dc2626',  // nền đỏ
+              fillOpacity: 0.35,
+            }}
+          >
+            <Popup>
+              <div>
+                <h3 className="font-bold text-base">Quần đảo Hoàng Sa</h3>
+                <p className="text-sm">Là một phần lãnh thổ không thể tách rời của Việt Nam.</p>
+              </div>
+            </Popup>
+          </Polygon>
+          <Marker position={HOANG_SA_CENTER} icon={STAR_ICON} />
+
+          {/* Quần đảo Trường Sa */}
+          <Polygon
+            positions={TRUONG_SA_AREA}
+            pathOptions={{
+              color: '#dc2626',
+              weight: 2,
+              fillColor: '#dc2626',
+              fillOpacity: 0.35,
+            }}
+          >
+            <Popup>
+              <div>
+                <h3 className="font-bold text-base">Quần đảo Trường Sa</h3>
+                <p className="text-sm">Là một phần lãnh thổ không thể tách rời của Việt Nam.</p>
+              </div>
+            </Popup>
+          </Polygon>
+          <Marker position={TRUONG_SA_CENTER} icon={STAR_ICON} />
+        </LayerGroup>
 
         {/* Events as Custom Markers */}
         {filteredEvents.map((event) => {
